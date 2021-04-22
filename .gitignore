@@ -1,0 +1,33 @@
+.DS_Store
+.thumbs.db
+
+
+
+/BackEnd/dist
+/BackEnd/node_modules
+
+# Cordova related directories and files
+/FrontEnd/src-cordova/node_modules
+/FrontEnd/src-cordova/platforms
+/FrontEnd/src-cordova/plugins
+/FrontEnd/src-cordova/www
+
+# Capacitor related directories and files
+/FrontEnd/src-capacitor/www
+/FrontEnd/src-capacitor/node_modules
+
+# BEX related directories and files
+/FrontEnd/src-bex/www
+/FrontEnd/src-bex/js/core
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
