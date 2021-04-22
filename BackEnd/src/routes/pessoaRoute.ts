@@ -26,10 +26,6 @@ class PessoaRoute {
             let pessoaService = new PessoaService(this._pessoaRepository);
             return pessoaService.login(request,response);
         });
-        // router.post('/forgot', pessoaService.forgotPassword);
-        // router.post('/reset', pessoaService.newPassword);
-        // router.post('/verifyLink', pessoaService.verifyEmail);
-
         return router;
     }
 

@@ -55,10 +55,10 @@ export class PessoaService {
                   txtSenha: await CryptService.encrypt(req.body.txtSenha),
                  };
     console.log("Salvando");
-    let resultCreate = await this._pessoaRepository.create(pessoa);
+    let resultCreate = await this._pessoaRepository.create(pessoa, {isNewRecord:true})
     
 
-    return RetornoRequest.Response({},null,res,HttpStatusCode.OK);
+    return RetornoRequest.Response(resultCreate,null,res,HttpStatusCode.OK);
   }
 
   public async loginValidation(req: any){
@@ -104,7 +104,7 @@ export class PessoaService {
     var tokenData = {
       nmePessoa: u?.nmePessoa,
       txtEmail:u?.txtEmail,
-      idPessoa: u?.IdPessoa,
+      idPessoa: u?.idPessoa,
 
     };
 

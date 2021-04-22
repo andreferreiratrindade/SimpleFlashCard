@@ -7,7 +7,13 @@ import cors from 'cors'
 import {PessoaRoute} from "./routes/pessoaRoute"
 import {TokenService} from "./services/tokenService"
 import { sequelize } from './instances/sequelize';
-import { Pessoa } from './models/pessoaModel';
+import { Conteudo  } from './models/conteudoModel';
+import { Pessoa  } from './models/pessoaModel';
+import { ConteudoRoute } from './routes/conteudoRoute';
+import { Cartao } from './models/cartaoModel';
+import { CartaoRoute } from './routes/cartaoRoute';
+import { Pergunta } from './models/perguntaModel';
+import { Resposta } from './models/respostaModel';
 const app = express();
 const apiRoutes = express.Router()
 
@@ -22,17 +28,28 @@ app.use(function(req, res, next) {
 app.use(logger('dev'));
 
 // middleware
-apiRoutes.use(TokenService.validaToken);
 
 
 let pessoaRepository =  sequelize.getRepository(Pessoa);
+let conteudoRepository =  sequelize.getRepository(Conteudo);
+let cartaoRepository =  sequelize.getRepository(Cartao);
+let  perguntaRepository =  sequelize.getRepository(Pergunta);
+let respostaRepository =  sequelize.getRepository(Resposta);
 let pessoaRoute = new PessoaRoute(pessoaRepository);
+let conteudoRoute = new ConteudoRoute(conteudoRepository);
+let cartaoRoute = new CartaoRoute(cartaoRepository,perguntaRepository,respostaRepository);
 
 // public
  app.use('/pessoa',pessoaRoute.montaRotas() );
 
+// Private
+ apiRoutes.use(TokenService.validaToken);
+ apiRoutes.use('/conteudo', conteudoRoute.montaRotas());
+ apiRoutes.use('/cartao', cartaoRoute.montaRotas());
 
  app.use('/api',apiRoutes);
+
+
   
 
 var port = config.server.port;
