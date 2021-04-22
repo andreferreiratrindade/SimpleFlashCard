@@ -1,0 +1,42 @@
+@baseUrl = http://localhost:3000
+
+# @name login
+POST {{baseUrl}}/pessoa/login HTTP/1.1
+content-type: application/json
+
+{
+    "txtEmail": "teste1@teste",
+    "txtSenha": "123456"
+}
+
+###
+
+
+# @name createConteudo
+POST {{baseUrl}}/api/conteudo HTTP/1.1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJubWVQZXNzb2EiOiJBbmRyw6kiLCJ0eHRFbWFpbCI6InRlc3RlMUB0ZXN0ZSIsImlkUGVzc29hIjo3LCJpYXQiOjE2MTkxMTA3NjR9.jqg9tPidxflXmKRTb4_aY3CLf9aXkKuYaWfyOSdutfY
+content-type: application/json
+
+{
+   "nmeConteudo": "node"
+}
+
+
+###
+
+# @name createConteudo
+GET {{baseUrl}}/api/conteudo HTTP/1.1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJubWVQZXNzb2EiOiJBbmRyw6kiLCJ0eHRFbWFpbCI6InRlc3RlMUB0ZXN0ZSIsImlkUGVzc29hIjo3LCJpYXQiOjE2MTkxMTA3NjR9.jqg9tPidxflXmKRTb4_aY3CLf9aXkKuYaWfyOSdutfY
+content-type: application/json
+
+###
+
+# @name createConteudo
+PUT {{baseUrl}}/api/conteudo HTTP/1.1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJubWVQZXNzb2EiOiJBbmRyw6kiLCJ0eHRFbWFpbCI6InRlc3RlMUB0ZXN0ZSIsImlkUGVzc29hIjo3LCJpYXQiOjE2MTkxMTA3NjR9.jqg9tPidxflXmKRTb4_aY3CLf9aXkKuYaWfyOSdutfY
+content-type: application/json
+
+{
+        "idConteudo":1,
+        "nmeConteudo":"Brazil"
+}

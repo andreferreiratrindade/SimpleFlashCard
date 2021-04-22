@@ -31,8 +31,9 @@ create table if not exists Cartao(
     ON UPDATE RESTRICT ON DELETE CASCADE
 );
 
-create table if not exists CartaoPergunta(
-    IdCartaoPergunta int auto_increment primary key, 
+
+create table if not exists Pergunta(
+    IdPergunta int auto_increment primary key, 
     IdCartao int not null, 
     TxtPergunta  Text  not null, 
     DtaIncusao TIMESTAMP  default current_timestamp,
@@ -42,8 +43,8 @@ create table if not exists CartaoPergunta(
     ON UPDATE RESTRICT ON DELETE CASCADE
 );
 
-create table if not exists CartaoResposta(
-    IdCartaoResposta int auto_increment primary key, 
+create table if not exists Resposta(
+    IdResposta int auto_increment primary key, 
     IdCartao int not null, 
     TxtResposta  Text  not null, 
     DtaIncusao TIMESTAMP  default current_timestamp,
