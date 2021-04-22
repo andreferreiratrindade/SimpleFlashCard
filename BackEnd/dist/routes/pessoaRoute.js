@@ -13,10 +13,15 @@ class PessoaRoute {
     montaRotas() {
         let router = express_1.default.Router();
         router.post('/create', (request, response) => {
+            console.log("Create");
             let pessoaService = new pessoaService_1.PessoaService(this._pessoaRepository);
-            return pessoaService.create(request, response, null);
+            return pessoaService.create(request, response);
         });
-        // router.post('/login', pessoaService.login);
+        router.post('/login', (request, response) => {
+            console.log("login");
+            let pessoaService = new pessoaService_1.PessoaService(this._pessoaRepository);
+            return pessoaService.login(request, response);
+        });
         // router.post('/forgot', pessoaService.forgotPassword);
         // router.post('/reset', pessoaService.newPassword);
         // router.post('/verifyLink', pessoaService.verifyEmail);

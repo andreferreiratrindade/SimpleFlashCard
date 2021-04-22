@@ -2,7 +2,17 @@ POST http://localhost:3000/pessoa/create HTTP/1.1
 content-type: application/json
 
 {
-    "txtEmail": "teste@teste",
+    "txtEmail": "teste1@teste",
     "txtSenha": "123456",
     "nmePessoa":"André"
+}
+
+###
+
+POST http://localhost:3000/pessoa/login HTTP/1.1
+content-type: application/json
+
+{
+    "txtEmail": "teste1@teste",
+    "txtSenha": "123456"
 }

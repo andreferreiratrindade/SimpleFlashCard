@@ -1,9 +1,7 @@
 
 import express from 'express';
-import indexRoutes from './routes/index';
 import * as config from './config/config.json'
 import bodyParser from 'body-parser'
-import path from 'path'
 import logger from 'morgan'
 import cors from 'cors'
 import {PessoaRoute} from "./routes/pessoaRoute"
