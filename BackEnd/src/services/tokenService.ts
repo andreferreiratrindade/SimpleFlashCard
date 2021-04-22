@@ -6,8 +6,7 @@ class TokenService{
 
 
     public  static validaToken(req: any , res:any , next:Function) {
-
-        debugger
+        console.log("valida token");
         // check header or url parameters or post parameters for token
         var token =  req.headers['authentication'];
         

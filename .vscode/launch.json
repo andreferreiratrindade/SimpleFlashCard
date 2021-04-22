@@ -8,8 +8,8 @@
         "request": "launch",
         "name": "Launch Program",
         "preLaunchTask": "tsc: build - tsconfig.json",
-        "program": "${workspaceFolder}/src/app.ts",
-        "outFiles": ["${workspaceFolder/dist/**/*.js"]
+        "program": "${workspaceFolder}/BackEnd/src/app.ts",
+        "outFiles": ["${workspaceFolder/BackEnd/dist/**/*.js"]
       }
     ]
   }

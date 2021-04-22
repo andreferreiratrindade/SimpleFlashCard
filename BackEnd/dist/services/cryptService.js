@@ -18,29 +18,32 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CryptService = void 0;
-const crypto = __importStar(require("crypto"));
+const bcrypt = __importStar(require("bcrypt"));
 class CryptService {
     /**
      *
      * @param password
      */
-    static decrypt(password) {
-        let crypted = new Crypto;
-        let decipher = crypto.createDecipheriv(this.algorithm, this.privateKey, null);
-        let dec = decipher.update(password, 'hex', 'utf8');
-        dec += decipher.final('utf8');
-        return dec;
+    static compare(password, password2) {
+        return bcrypt.compare(password, password2);
     }
     static encrypt(password) {
-        var cipher = crypto.createCipheriv(this.algorithm, this.privateKey, null);
-        var crypted = cipher.update(password, 'utf8', 'hex');
-        crypted += cipher.final('hex');
-        return crypted;
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield bcrypt.hash(password, this._saltRounds);
+        });
     }
 }
 exports.CryptService = CryptService;
-CryptService.algorithm = 'aes-256-ctr';
-CryptService.privateKey = '37LvDSm4XvjYOh9Y';
+CryptService._saltRounds = 12;
 //# sourceMappingURL=cryptService.js.map

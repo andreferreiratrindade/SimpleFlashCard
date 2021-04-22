@@ -1,27 +1,19 @@
-import * as crypto from "crypto";
+import * as bcrypt from 'bcrypt'
 
 export class CryptService{
 
-    private static readonly  algorithm = 'aes-256-ctr';
-    private static readonly privateKey = '37LvDSm4XvjYOh9Y';
+    private static readonly  _saltRounds = 12;
 
     /**
      * 
      * @param password 
      */
-    public static decrypt(password : string) {
-        let crypted = new Crypto
-        let decipher = crypto.createDecipheriv(this.algorithm, this.privateKey,null);
-        let dec = decipher.update(password, 'hex', 'utf8');
-        dec += decipher.final('utf8');
-        return dec;
+    public static compare(password : string, password2: string) {
+       return  bcrypt.compare(password,password2)
     }
 
 
-    public static encrypt(password : string) {
-        var cipher = crypto.createCipheriv(this.algorithm, this.privateKey,null);
-        var crypted = cipher.update(password, 'utf8', 'hex');
-        crypted += cipher.final('hex');
-        return crypted;
+    public static async encrypt(password : string): Promise<string> {
+       return await bcrypt.hash(password, this._saltRounds)
     }
 }

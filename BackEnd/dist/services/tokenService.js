@@ -27,7 +27,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config = __importStar(require("../config/config.json"));
 class TokenService {
     static validaToken(req, res, next) {
-        debugger;
+        console.log("valida token");
         // check header or url parameters or post parameters for token
         var token = req.headers['authentication'];
         // decode token
