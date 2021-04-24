@@ -71,21 +71,17 @@
 
 
 <script lang="ts">
-import { IAuthService } from "src/services/interfaces/IAuthService";
+import { AuthService } from "./../../services/AuthService";
 import { Component, Vue } from "vue-property-decorator";
-import { _modelInput } from "src/models/_modelsInput";
-import { inject, injectable } from "inversify";
-import myContainer from "src/config/inversify.config";
-import { TYPES } from "src/config/types";
+import { _modelsInput } from "../../models/_modelsInput";
 
 @Component
 export default class Login extends Vue {
-  _authService!: IAuthService;
+  _authService!: AuthService;
 
-  usuario: _modelInput.UsuarioLoginInputModel = {
-    email: "",
-    password: "",
-    nome: "",
+  usuario: _modelsInput.PessoaLogin = {
+    txtEmail: null,
+    txtSenha: ""
   };
 
   error: string = "";
@@ -94,17 +90,17 @@ export default class Login extends Vue {
     this._authService
       .login(this.usuario)
       .then((result: any) => {
-        this.$router.replace({ name: "painelGerencial" });
+        this.$router.replace({ name: "conteudo" });
       })
       .catch((err: any) => {
         this.$q.notify(err);
       });
   }
 
-  created(): void {
-    this._authService = myContainer.myContainer.get<IAuthService>(
-      TYPES.AuthService
-    );
+  created(){
+    this._authService = new AuthService();
   }
+
+  
 }
 </script>

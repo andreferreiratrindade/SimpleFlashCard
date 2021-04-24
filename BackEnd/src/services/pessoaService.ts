@@ -9,7 +9,7 @@ import { Repository } from 'sequelize-typescript';
 import { TokenService } from './tokenService';
 import { RetornoRequest } from '../utils/retornoRequest';
 import HttpStatusCode from '../constants/HttpStatusCode';
-import { config } from 'node:process';
+
 
 export class PessoaService {
 
@@ -36,6 +36,7 @@ export class PessoaService {
     .run(req);
   }
 
+  
   public async create(req: any, res: any) {
     console.log("create");
     console.log(req.body);
@@ -47,16 +48,15 @@ export class PessoaService {
     if (!result.isEmpty()) {
       return res.status(400).json({ errors: result.array() });
     }
-
-    console.log("")
     let pessoa = { 
                   txtEmail : req.body.txtEmail, 
                   nmePessoa : req.body.nmePessoa,
                   txtSenha: await CryptService.encrypt(req.body.txtSenha),
                  };
     console.log("Salvando");
+
     let resultCreate = await this._pessoaRepository.create(pessoa, {isNewRecord:true})
-    
+    resultCreate.txtSenha = "";
 
     return RetornoRequest.Response(resultCreate,null,res,HttpStatusCode.OK);
   }
@@ -110,7 +110,7 @@ export class PessoaService {
 
     let result = {
       pessoa: tokenData,
-      token: Jwt.sign(tokenData, Config.key.privateKey ),
+      token: Jwt.sign(tokenData, Config.key.privateKey, {expiresIn:Config.key.tokenExpiry} ),
     };
 
     return RetornoRequest.Response(result, null,res,HttpStatusCode.OK);

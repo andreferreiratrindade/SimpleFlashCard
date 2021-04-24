@@ -14,7 +14,7 @@
               <q-input
                 square
                 clearable
-                v-model="usuario.nome"
+                v-model="pessoa.nmePessoa"
                 type="username"
                 label="Nome"
                 required
@@ -26,7 +26,7 @@
               <q-input
                 square
                 clearable
-                v-model="usuario.email"
+                v-model="pessoa.txtEmail"
                 type="email"
                 label="E-mail"
                 value
@@ -40,7 +40,7 @@
               <q-input
                 square
                 clearable
-                v-model="usuario.password"
+                v-model="pessoa.txtSenha"
                 type="password"
                 label="Senha"
                 value
@@ -82,28 +82,25 @@
 </template>
 
 <script lang="ts">
-import { IAuthService } from "src/services/interfaces/IAuthService";
+import { AuthService } from "./../../services/AuthService";
 import { Component, Vue } from "vue-property-decorator";
-import { inject, injectable } from "inversify";
-import myContainer from "src/config/inversify.config";
-import { TYPES } from "src/config/types";
-import { _modelInput } from "src/models/_modelsInput";
+import { _modelsInput } from "../../models/_modelsInput";
+
 @Component
 export default class Register extends Vue {
-  _authService!: IAuthService ;
+  _authService!: AuthService ;
 
-  usuario: _modelInput.UsuarioLoginInputModel = {
-    email: "",
-    password: "",
-    nome: "",
+  private pessoa: _modelsInput.PessoaAdicionar = {
+    txtSenha: null,
+    txtEmail: null,
+    nmePessoa: null
   };
 
   error: string = "";
 
   submit() {
     this.$q.loading.show();
-    this._authService
-      ?.novoCadastro(this.usuario)
+    this._authService.adicionar(this.pessoa)
       .then((result: any) => {
         this.$router.replace({ name: "login" });
         this.$q.notify(result);
@@ -116,11 +113,8 @@ export default class Register extends Vue {
       });
   }
 
-  created(): void {
-
-    this._authService = myContainer.myContainer.get<IAuthService>(
-      TYPES.AuthService
-    );
+   created(){
+    this._authService = new AuthService();
   }
 }
 </script>
