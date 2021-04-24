@@ -1,24 +1,48 @@
 {
-  "name": "simple_flash_card_quasar",
+  "name": "simple_flash_card",
   "version": "0.0.1",
-  "description": "A Quasar Framework app",
-  "productName": "Simple Flash Card",
+  "description": "App de aprendizado por reforço",
+  "productName": "Simple flash card",
   "author": "Andre <andreferreiratrindade@gmail.com>",
   "private": true,
   "scripts": {
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "mocha -r ts-node/register test/**/*Test.ts"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
-    "axios": "^0.21.1",
+    "axios": "^0.18.1",
+    "cheerio": "^1.0.0-rc.3",
     "core-js": "^3.6.5",
+    "cors": "^2.8.5",
+    "fetch": "^1.1.0",
+    "firebase": "^8.0.2",
+    "fs": "0.0.1-security",
+    "inversify": "^5.0.1",
+    "linq-to-typescript": "^6.0.1",
+    "nedb": "^1.8.0",
     "quasar": "^1.0.0",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^6.6.3",
+    "vue": "^2.6.12",
+    "vue-axios-cors": "^1.0.1",
     "vue-class-component": "^7.2.2",
-    "vue-property-decorator": "^8.3.0"
+    "vue-property-decorator": "^8.3.0",
+    "vue-rx": "^6.2.0",
+    "yahoo-finance": "^0.3.7"
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0",
-    "@types/node": "^10.17.15"
+    "@types/axios": "^0.14.0",
+    "@types/chai": "^4.2.11",
+    "@types/cheerio": "^0.22.22",
+    "@types/cors": "^2.8.10",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^10.17.58",
+    "chai": "^4.2.0",
+    "mocha": "^7.2.0",
+    "nyc": "^15.1.0",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3"
   },
   "browserslist": [
     "last 10 Chrome versions",

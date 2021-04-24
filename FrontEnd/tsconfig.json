@@ -1,7 +1,24 @@
 {
   "extends": "@quasar/app/tsconfig-preset",
+
   "compilerOptions": {
+    "typeRoots": [ "./types", "./node_modules/@types"],
     "baseUrl": ".",
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext",
+      "es5",
+      "es6"
+   ],
+    "skipLibCheck": true,
+    "strict": true,
+    "types": ["reflect-metadata"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "noImplicitAny": false
   }
 }

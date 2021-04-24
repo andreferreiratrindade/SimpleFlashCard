@@ -45,7 +45,8 @@ export class ConteudoService {
 
     const cartoes  = await sequelize.query(
     `select conteudo.idConteudo, 
-      conteudo.NmeConteudo
+            conteudo.nmeConteudo,
+            (select count(idCartao) from cartao where idConteudo =  conteudo.idConteudo   ) as qtdCartao
        from Conteudo conteudo
 
       where conteudo.IdPessoa = :idPessoa `,

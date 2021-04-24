@@ -46,10 +46,14 @@ export class CartaoService {
     if (!result.isEmpty()) {
       return res.status(400).json({ errors: result.array() });
     }
+
+    console.log(req.body)
+
     let Cartao = {
       idConteudo: req.body.idConteudo
     };
     let resultCreate = await this._cartaoRepository.create(Cartao);
+
 
     let pergunta = {
       idCartao: resultCreate.idCartao,
@@ -99,7 +103,7 @@ export class CartaoService {
     inner join resposta resposta
       on resposta.IdCartao = cartao.IdCartao
       where cartao.IdConteudo = :idConteudo `,
-    {replacements: { idConteudo: req.body.idConteudo }, type: 'SELECT' });
+    {replacements: { idConteudo: req.query.idConteudo }, type: 'SELECT' });
 
     return RetornoRequest.Response(cartoes, null, res, HttpStatusCode.OK);
   }
