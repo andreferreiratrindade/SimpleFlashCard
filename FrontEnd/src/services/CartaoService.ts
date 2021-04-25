@@ -59,4 +59,39 @@ export class CartaoService {
         }
     }
 
+ 
+
+    public async RecuperaPorId(idCartao : number){
+
+
+        let parameters: IHttpClientRequestParameters
+            = {
+            url: Config.api + `/api/cartao/${idCartao}`,
+            requiresToken: true
+        }
+        try {
+            let result = await HttpClient.get(parameters);
+            return result.data.obj;
+        } catch (error) {
+            return null
+        }
+    }
+
+
+    public async excluir(idCartao : number){
+        let parameters: IHttpClientRequestParameters
+            = {
+            url: Config.api + `/api/cartao/${idCartao}`,
+            requiresToken: true,
+        }
+        try {
+            let result = await HttpClient.delete(parameters);
+            let notify = result.ok ? NotifyHelper.sucesso() : NotifyHelper.erro(result.error);
+        
+            return notify;
+        } catch (error) {
+            return NotifyHelper.erro(error)
+        }
+    }
+
 }

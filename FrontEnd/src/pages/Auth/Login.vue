@@ -71,7 +71,7 @@
 
 
 <script lang="ts">
-import { AuthService } from "./../../services/AuthService";
+import { AuthService } from "../../services/AuthService";
 import { Component, Vue } from "vue-property-decorator";
 import { _modelsInput } from "../../models/_modelsInput";
 

@@ -3,7 +3,7 @@
     <q-card>
       <q-form @submit="salvar" class="q-gutter-md">
          <q-card-section>
-          <div class="text-h6">Novo conteúdo</div>
+          <div class="text-h6">Alterar conteúdo</div>
         </q-card-section>
         <q-card-section>
           <q-input
@@ -12,7 +12,7 @@
             label="Conteúdo"
             filled
             require
-            autofocus 
+            autofocus
             lazy-rules
             focus
             :rules="[ val => val && val.length > 0 || 'Campo de preenchimento obrigatório']"
@@ -20,7 +20,7 @@
           
         </q-card-section>
         <q-card-actions align="right" class="bg-white text-teal">
-          <q-btn color="primary" label="Adicionar" type="submit" value/>
+          <q-btn color="primary" label="Salvar" type="submit" value/>
           <q-btn
             label="Cancelar"
             @click="$emit('close')"
@@ -39,27 +39,42 @@ import { ConteudoService } from "../../../services/ConteudoService";
 import { _modelsInput } from "../../../models/_modelsInput";
 
 @Component
-export default class DialogAdicionarConteudo extends Vue{
+export default class DialogAtualizarConteudo extends Vue{
 
   showModal : boolean = false;
 
   @Prop({ type: Function, default: () => false })
 	readonly refreshTable!: Function;
+  
+  
+  public idConteudo : number  = 0
 
     private _conteudoService !: ConteudoService;
     public conteudo : _modelsInput.Conteudo = {
       nmeConteudo: "",
-      idConteudo: null
+      idConteudo: this.idConteudo
     }
 
 
-    show(){
-        this.showModal = true
+    show(idConteudo: number){
+        this.showModal = true;
+        this.idConteudo = idConteudo;
+
+        this._conteudoService.RecuperaPorId(this.idConteudo)
+        .then((result: any) => {
+          this.conteudo = result;
+        })
+        .catch((err: any) => {
+          this.$q.notify(err);
+        })
+        .finally(() => {
+          this.$q.loading.hide();
+        });
     }
 
    public salvar() {
     this._conteudoService
-      .adicionar(this.conteudo)
+      .atualizar(this.conteudo)
       .then((result: any) => {
         this.$q.notify(result);
         this.conteudo = {nmeConteudo:null,idConteudo: null}

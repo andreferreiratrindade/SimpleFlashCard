@@ -60,6 +60,18 @@
       :refreshTable="recuperaCartoes"
     >
     </dialog-adicionar-cartao>
+
+        <dialog-atualizar-cartao
+      ref="dialogAtualizarCartao"
+      :refreshTable="recuperaCartoes"
+    >
+    </dialog-atualizar-cartao>
+
+    <dialog-excluir-cartao
+      ref="dialogExcluirCartao"
+      :refreshTable="recuperaCartoes"
+    >
+    </dialog-excluir-cartao>
   </div>
 </template>
 
@@ -67,9 +79,12 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import DialogAdicionarCartao from "./components/DialogAdicionarCartao.vue";
-import { CartaoService } from "src/services/CartaoService";
+import DialogAtualizarCartao from "./components/DialogAtualizarCartao.vue";
+import DialogExcluirCartao from "./components/DialogExcluirCartao.vue";
+import { CartaoService } from "../../services/CartaoService";
+
 @Component({
-  components: { DialogAdicionarCartao },
+  components: { DialogAdicionarCartao , DialogAtualizarCartao, DialogExcluirCartao},
 })
 export default class CartaoList extends Vue {
   loading: boolean = true;
@@ -118,16 +133,14 @@ export default class CartaoList extends Vue {
   }
 
   editar(row: any) {
-         
 
+    (this.$refs.dialogAtualizarCartao as Vue & { show(idCartao:number): boolean }).show(row.row.idCartao);
+   
   }
 
   excluir(row: any) {
-
-
+    (this.$refs.dialogExcluirCartao as Vue & { show(idCartao:number): boolean }).show(row.row.idCartao);
   }
-
-
 
   created() {
     

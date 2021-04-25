@@ -74,7 +74,19 @@
       ref="dialogAdicionarConteudo"
       :refreshTable="recuperaConteudos"
     >
+    
     </dialog-adicionar-conteudo>
+
+    <dialog-atualizar-conteudo
+      ref="dialogAtualizarConteudo"
+      :refreshTable="recuperaConteudos"
+    >
+    
+    </dialog-atualizar-conteudo>
+
+    <dialog-exclusao-conteudo   ref="dialogExcluirConteudo"
+      :refreshTable="recuperaConteudos">
+    </dialog-exclusao-conteudo>
   </div>
 </template>
 
@@ -82,9 +94,11 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import DialogAdicionarConteudo from "./components/DialogAdicionarConteudo.vue";
-import { ConteudoService } from "src/services/ConteudoService";
+import DialogAtualizarConteudo from "./components/DialogAtualizarConteudo.vue";
+import DialogExclusaoConteudo from "./components/DialogExclusaoConteudo.vue";
+import { ConteudoService } from "../../services/ConteudoService";
 @Component({
-  components: { DialogAdicionarConteudo },
+  components: { DialogAdicionarConteudo, DialogAtualizarConteudo, DialogExclusaoConteudo },
 })
 export default class ConteudoList extends Vue {
   loading: boolean = true;
@@ -129,13 +143,12 @@ export default class ConteudoList extends Vue {
 
   editar(row: any) {
 
+    (this.$refs.dialogAtualizarConteudo as Vue & { show(idConteudo:number): boolean }).show(row.row.idConteudo);
    
-
   }
 
   excluir(row: any) {
-
-
+    (this.$refs.dialogExcluirConteudo as Vue & { show(idConteudo:number): boolean }).show(row.row.idConteudo);
   }
 
   cartoes(row: any) {

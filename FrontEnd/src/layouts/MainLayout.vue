@@ -12,7 +12,7 @@
         />
 
         <q-toolbar-title>
-          Meu Dinheiro
+          Simple Flash Card
         </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>

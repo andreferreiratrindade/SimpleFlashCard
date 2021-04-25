@@ -41,6 +41,18 @@ export class CartaoRoute {
             return cartaoService.atualizar(request,response);
         });
 
+        
+        router.get("/:idCartao",(request: any,response:any)=>{
+            console.log("RecuperaPorId");
+            let cartaoService = new CartaoService(this._cartaoRepository,this._perguntaRepository,this._respostaRepository);
+            return cartaoService.recuperaPorId(request,response);
+        });
+
+        router.delete("/:idCartao",(request: any,response:any)=>{
+            console.log("Excluir");
+            let cartaoService = new CartaoService(this._cartaoRepository,this._perguntaRepository,this._respostaRepository);
+            return cartaoService.excluir(request,response);
+        });
       
         return router;
     }

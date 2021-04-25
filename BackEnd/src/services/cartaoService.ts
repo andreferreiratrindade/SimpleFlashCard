@@ -94,9 +94,9 @@ export class CartaoService {
     const cartoes  = await sequelize.query(
     `select pergunta.txtPergunta
     , resposta.txtResposta
-    , cartao.IdCartao
-    , pergunta.IdPergunta
-    , resposta.IdResposta
+    , cartao.idCartao
+    , pergunta.idPergunta
+    , resposta.idResposta
      from Cartao cartao
     inner join Pergunta pergunta
       on pergunta.IdCartao = cartao.IdCartao
@@ -140,4 +140,68 @@ export class CartaoService {
     let resultUpdatePergunta= await this._perguntaRepository.update(conteudoPergunta, {where:{idCartao:req.body.idCartao}});
     return RetornoRequest.Response([resultUpdatePergunta, resultUpdateResposta ],null,res,HttpStatusCode.OK);
   }
+
+  
+  public async recuperacaPorIdValidacao(req: any){
+    await check("idCartao")
+    .notEmpty()
+    .withMessage("Campo é de preenchimento obrigatório")
+    .isNumeric()
+    .withMessage("Campo deverá ser do tipo numerico")
+    .run(req);
+
+  }
+
+  public async recuperaPorId(req: any, res: any){
+
+    await this.recuperacaPorIdValidacao(req);
+
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
+      return res.status(400).json({ errors: result.array() });
+    }
+
+    const cartao  = await sequelize.query(
+      `select pergunta.txtPergunta
+      , resposta.txtResposta
+      , cartao.idCartao
+      , pergunta.idPergunta
+      , resposta.idResposta
+       from Cartao cartao
+      inner join Pergunta pergunta
+        on pergunta.IdCartao = cartao.IdCartao
+      inner join resposta resposta
+        on resposta.IdCartao = cartao.IdCartao
+        where cartao.IdCartao = :idCartao `,
+      {replacements: { idCartao: req.params.idCartao }, type: 'SELECT' });
+
+  
+    return RetornoRequest.Response(cartao[0], null, res, HttpStatusCode.OK);
+  }
+
+  public async excluirValidacao(req: any){
+    await check("idCartao")
+    .notEmpty()
+    .withMessage("Campo é de preenchimento obrigatório")
+    .isNumeric()
+    .withMessage("Campo deverá ser do tipo numerico")
+    .run(req);
+
+  }
+
+  public async excluir(req: any, res: any){
+
+    await this.recuperacaPorIdValidacao(req);
+
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
+      return res.status(400).json({ errors: result.array() });
+    }
+
+    const conteudo = await this._cartaoRepository.destroy({where:{idCartao: req.params.idCartao}});
+
+  
+    return RetornoRequest.Response(conteudo, null, res, HttpStatusCode.OK);
+  }
+  
 }

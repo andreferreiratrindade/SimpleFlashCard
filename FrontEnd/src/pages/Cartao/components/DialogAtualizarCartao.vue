@@ -1,14 +1,13 @@
 <template>
   <q-dialog ref="dialog" v-model="showModal" persistent cancel>
-    <q-card style="width: 700px; max-width: 80vw;">
-      <q-form @submit="salvar" >
-        <q-card-section class="row items-center q-pb-none">
-          <div class="text-h6">Novo cartão</div>
-          <q-space />
-          <q-btn icon="close" flat round dense v-close-popup />
+    <q-card>
+      <q-form @submit="salvar" class="q-gutter-md">
+         <q-card-section>
+          <div class="text-h6">Alterar conteúdo</div>
         </q-card-section>
-        <q-card-section class="q-gutter-md">
-          <q-input
+        <q-card-section>
+
+           <q-input
             v-model="cartao.txtPergunta"
             type="text"
             label="Pergunta"
@@ -29,10 +28,9 @@
             focus
             :rules="[ val => val && val.length > 0 || 'Campo de preenchimento obrigatório']"
           />
-          
         </q-card-section>
         <q-card-actions align="right" class="bg-white text-teal">
-          <q-btn color="primary" label="Adicionar" type="submit" value/>
+          <q-btn color="primary" label="Salvar" type="submit" value/>
           <q-btn
             label="Cancelar"
             @click="$emit('close')"
@@ -48,39 +46,51 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator"
 import { CartaoService } from "../../../services/CartaoService";
-
 import { _modelsInput } from "../../../models/_modelsInput";
 
 @Component
-export default class DialogAdicionarCartao extends Vue{
+export default class DialogAtualizarCartao extends Vue{
 
   showModal : boolean = false;
 
   @Prop({ type: Function, default: () => false })
 	readonly refreshTable!: Function;
-
-  @Prop()
-	readonly idConteudo!: number;
+  
+  
+  public idCartao : number  = 0
 
     private _cartaoService !: CartaoService;
-    public cartao : _modelsInput.Cartao =  {
-      idConteudo: this.idConteudo,
-      idCartao : null,
-      txtPergunta : null, 
-      txtResposta:null
-    };
+    public cartao : _modelsInput.Cartao = {
+      txtPergunta: "",
+      txtResposta: "",
+      idConteudo: null,
+      idCartao : this.idCartao
+    }
 
 
-    show(){
-        this.showModal = true
+    show(idCartao: number){
+        this.showModal = true;
+        this.idCartao = idCartao;
+
+        this._cartaoService.RecuperaPorId(this.idCartao)
+        .then((result: any) => {
+          this.cartao = result;
+        })
+        .catch((err: any) => {
+          this.$q.notify(err);
+        })
+        .finally(() => {
+          this.$q.loading.hide();
+        });
     }
 
    public salvar() {
     this._cartaoService
-      .adicionar(this.cartao)
+      .atualizar(this.cartao)
       .then((result: any) => {
         this.$q.notify(result);
-        this.cartao = this.initCartao();
+        this.cartao = {txtResposta:null, txtPergunta: null, idCartao: null,idConteudo: null}
+        this.showModal = false;
         this.refreshTable();
       })
       .catch((err: any) => {
@@ -92,17 +102,7 @@ export default class DialogAdicionarCartao extends Vue{
   }
 
   created() {
-    this.cartao = this.initCartao();
     this._cartaoService = new CartaoService();
-  }
-
-  public  initCartao(){
-    return {
-      idConteudo: this.idConteudo,
-      idCartao : null,
-      txtPergunta : null, 
-      txtResposta:null
-    };
   }
 }
 </script>

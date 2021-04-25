@@ -33,9 +33,19 @@ export class ConteudoRoute {
             let cartaoService = new ConteudoService(this._conteudoRepository);
             return cartaoService.atualizar(request,response);
         });
-      
+
+        router.get("/:idConteudo",(request: any,response:any)=>{
+            console.log("RecuperaPorId");
+            let cartaoService = new ConteudoService(this._conteudoRepository);
+            return cartaoService.recuperaPorId(request,response);
+        });
+
+        router.delete("/:idConteudo",(request: any,response:any)=>{
+            console.log("RecuperaPorId");
+            let cartaoService = new ConteudoService(this._conteudoRepository);
+            return cartaoService.excluir(request,response);
+        });
+
         return router;
     }
-
-
 }
