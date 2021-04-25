@@ -24,6 +24,7 @@ export class ConteudoService {
 
   public async adicionar(req: any, res: any) {
 
+    
     await this.adicionarValidacao(req);
 
     const result = validationResult(req);
@@ -60,6 +61,8 @@ export class ConteudoService {
     await check("idConteudo")
     .notEmpty()
     .withMessage("Campo é de preenchimento obrigatório")
+    .isNumeric()
+    .withMessage("Campo deverá ser do tipo numerico")
     .run(req);
 
     await check("nmeConteudo")
@@ -80,4 +83,55 @@ export class ConteudoService {
 
     return RetornoRequest.Response(resultUpdate,null,res,HttpStatusCode.OK);
   }
+
+  public async recuperacaPorIdValidacao(req: any){
+    await check("idConteudo")
+    .notEmpty()
+    .withMessage("Campo é de preenchimento obrigatório")
+    .isNumeric()
+    .withMessage("Campo deverá ser do tipo numerico")
+    .run(req);
+
+  }
+
+  public async recuperaPorId(req: any, res: any){
+
+    await this.recuperacaPorIdValidacao(req);
+
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
+      return res.status(400).json({ errors: result.array() });
+    }
+
+    const conteudo = await this._conteudoRepository.findOne({where:{idConteudo: req.params.idConteudo}});
+
+  
+    return RetornoRequest.Response(conteudo, null, res, HttpStatusCode.OK);
+  }
+
+  public async excluirValidacao(req: any){
+    await check("idConteudo")
+    .notEmpty()
+    .withMessage("Campo é de preenchimento obrigatório")
+    .isNumeric()
+    .withMessage("Campo deverá ser do tipo numerico")
+    .run(req);
+
+  }
+
+  public async excluir(req: any, res: any){
+
+    await this.recuperacaPorIdValidacao(req);
+
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
+      return res.status(400).json({ errors: result.array() });
+    }
+
+    const conteudo = await this._conteudoRepository.destroy({where:{idConteudo: req.params.idConteudo}});
+
+  
+    return RetornoRequest.Response(conteudo, null, res, HttpStatusCode.OK);
+  }
+  
 }

@@ -79,7 +79,7 @@ export class HttpClient  {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Headers":
             "Origin, X-Requested-With, Content-Type, Accept",
-          "Access-Control-Allow-Methods": "GET",
+          "Access-Control-Allow-Methods": "PUT",
           "Content-Security-Policy": "*"
         }
       };
@@ -92,6 +92,38 @@ export class HttpClient  {
       // finally execute the GET request with axios:
       axios
         .put(url, payload, options)
+        .then((response: any) => {
+          resolve(response.data as any);
+        })
+        .catch((response: any) => {
+          reject(response);
+        });
+    });
+  }
+
+  static  delete(parameters: IHttpClientRequestParameters): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      const { url, payload, requiresToken } = parameters;
+
+      // axios request options like headers etc
+      const options: AxiosRequestConfig = {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Headers":
+            "Origin, X-Requested-With, Content-Type, Accept",
+          "Access-Control-Allow-Methods": "DELETE",
+          "Content-Security-Policy": "*"
+        }
+      };
+
+      if (requiresToken) {
+             const token = ConfigService.getToken();
+             options.headers.Authorization = token;
+      }
+
+      // finally execute the GET request with axios:
+      axios
+        .delete(url, options)
         .then((response: any) => {
           resolve(response.data as any);
         })
