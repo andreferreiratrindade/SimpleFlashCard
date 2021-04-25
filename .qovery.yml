@@ -1,0 +1,11 @@
+---
+application:
+  name: "simpleflashcard"
+  project: "SimpleFlashCard"
+  organization: "QoveryCommunity"
+routers:
+- name: "main-simpleflashcard"
+  routes:
+  - application_name: "simpleflashcard"
+    paths:
+    - "/*"
