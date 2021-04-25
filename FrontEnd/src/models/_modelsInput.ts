@@ -23,4 +23,14 @@ export namespace _modelsInput{
         txtPergunta:string| null, 
         txtResposta:string | null
     }
+
+    export interface Avaliacao{
+        idCartao : number| null, 
+        idTipoAvaliacao : number| null, 
+        txtPergunta : string  | null,
+        txtResposta : string | null        
+    }
+}
+
+ 
 }

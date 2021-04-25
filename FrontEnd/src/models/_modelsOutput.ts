@@ -14,4 +14,4 @@ export namespace _modelsOutput{
         txtResposta:string| null
 
     }
-}
+

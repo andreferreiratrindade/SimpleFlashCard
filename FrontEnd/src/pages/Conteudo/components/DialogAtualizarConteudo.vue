@@ -1,6 +1,7 @@
 <template>
   <q-dialog ref="dialog" v-model="showModal" persistent cancel>
-    <q-card>
+    <q-card style="width: 700px; max-width: 80vw;">
+
       <q-form @submit="salvar" class="q-gutter-md">
          <q-card-section>
           <div class="text-h6">Alterar conteúdo</div>

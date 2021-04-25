@@ -56,7 +56,13 @@ const linksData = [
     title: 'Home',
     caption: '',
     icon: 'school',
-    link: '/#/Painel gerencial'
+    link: '/#/'
+  },
+    {
+    title: 'Avaliação',
+    caption: '',
+    icon: 'school',
+    link: '/#/Avaliacao'
   },
   {
     title: 'Conteúdos',
