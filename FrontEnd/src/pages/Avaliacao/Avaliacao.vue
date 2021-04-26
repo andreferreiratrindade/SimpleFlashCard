@@ -80,6 +80,7 @@ export default class Avaliacao extends Vue {
       .then((result) => {
         this.avaliacao = result == undefined ? this.avaliacao : result;
         this.cartaoEncontrado = result != undefined;
+        this.mostrarResposta = false;
         this.loading = false;
       })
       .catch()

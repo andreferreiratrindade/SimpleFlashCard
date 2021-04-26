@@ -92,7 +92,7 @@ create table if not exists Avaliacao(
 
 
 insert into Caixa values(1,5,'5 minutos');
-insert into Caixa values(2,14400,'1 dia');
+insert into Caixa values(2,1440,'1 dia');
 insert into Caixa values(4,2880,'2 dias');
 insert into Caixa values(5,7200,'5 dias');
 insert into Caixa values(6,11520,'8 dias');
