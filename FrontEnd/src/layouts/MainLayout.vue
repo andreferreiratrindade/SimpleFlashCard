@@ -12,10 +12,8 @@
         />
 
         <q-toolbar-title>
-          Simple Flash Card
+          Simples cartões de estudos
         </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
@@ -30,7 +28,6 @@
           header
           class="text-grey-8"
         >
-          Essential Links
         </q-item-label>
         <EssentialLink
           v-for="link in essentialLinks"
@@ -55,18 +52,24 @@ const linksData = [
   {
     title: 'Home',
     caption: '',
+    icon: 'home',
+    link: '/#/'
+  },
+    {
+    title: 'Avaliação',
+    caption: '',
     icon: 'school',
-    link: '/#/Painel gerencial'
+    link: '/#/AvaliacaoConteudo' 
   },
   {
-    title: 'Conteúdos',
+    title: 'Manutenção',
     caption: '',
-    icon: 'code',
+    icon: 'settings',
     link: '/#/Conteudo'
   },{
     title: 'Minha conta',
     caption: '',
-    icon: 'school',
+    icon: 'perm_identity',
     link: '/#/MinhaConta'
   },
 ];

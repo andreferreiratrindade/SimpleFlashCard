@@ -23,6 +23,14 @@ const routes: RouteConfig[] = [
         path: 'cartao/:idConteudo',
         name: 'cartao',
         component: () => import('pages/Cartao/CartaoList.vue')
+      },{
+          path: 'avaliacaoConteudo',
+          name: 'avaliacaoConteudo',
+          component: () => import('pages/Avaliacao/AvaliacaoConteudo.vue')
+      },{
+        path: 'avaliacao/:idConteudo',
+        name: 'avaliacao',
+        component: () => import('pages/Avaliacao/Avaliacao.vue')
       }
     ]
   },
