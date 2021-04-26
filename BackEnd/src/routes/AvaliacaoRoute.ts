@@ -24,7 +24,7 @@ export class AvaliacaoRoute {
         });
 
 
-        router.get("/RecuperarProximaAvaliacao",(request: any,response:any)=>{
+        router.get("/RecuperarProximaAvaliacao/:idConteudo",(request: any,response:any)=>{
             console.log("RecuperarProximaAvaliacao");
             let avaliacaoService = new AvaliacaoService(this._avaliacaoRepository);
             return avaliacaoService.recuperaProximaAvaliacao(request,response);

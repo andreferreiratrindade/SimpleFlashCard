@@ -25,10 +25,10 @@ export class AvaliacaoService {
         }
     }
 
-    public async recuperaProximaAvaliacao() {
+    public async recuperaProximaAvaliacao(idConteudo:number) {
         let parameters: IHttpClientRequestParameters
             = {
-            url: Config.api + "/api/avaliacao/RecuperarProximaAvaliacao",
+            url: Config.api + `/api/avaliacao/RecuperarProximaAvaliacao/${idConteudo}`,
             requiresToken: true
         }
         try {

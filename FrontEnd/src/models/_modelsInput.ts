@@ -31,6 +31,4 @@ export namespace _modelsInput{
         txtResposta : string | null        
     }
 }
-
  
-}

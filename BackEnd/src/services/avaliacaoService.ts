@@ -5,6 +5,8 @@ import { Avaliacao } from '../models/avaliacaoModel';
 import { Repository } from 'sequelize-typescript';
 import { RetornoRequest } from '../utils/retornoRequest';
 import HttpStatusCode from '../constants/HttpStatusCode';
+import { RepositoryQuery } from '../repositories/repositoryQuery';
+import { Constants } from '../constants/Constants';
 
 export class AvaliacaoService {
 
@@ -19,16 +21,23 @@ export class AvaliacaoService {
     await check("idCartao")
       .notEmpty()
       .withMessage("Campo é de preenchimento obrigatório")
+      .isNumeric()
+      .withMessage("Campo é do tipo númerico")
       .run(req);
 
       await check("idTipoAvaliacao")
       .notEmpty()
       .withMessage("Campo é de preenchimento obrigatório")
-      .run(req);
+      .isNumeric()
+      .withMessage("Campo é do tipo númerico")
+      .custom((value:any)=>{
 
-      await check("IdCaixa")
-      .notEmpty()
-      .withMessage("Campo é de preenchimento obrigatório")
+        let tiposValidos = [Constants.TipoAtendimetno.ERREI, Constants.TipoAtendimetno.ACERTEI];
+
+        return tiposValidos.filter(x=>{return x == value});
+
+      })
+      .withMessage("Campo permite apenas os valores 1 para Acertei ou 2 para Errei")
       .run(req);
   }
 
@@ -41,10 +50,36 @@ export class AvaliacaoService {
     if (!result.isEmpty()) {
       return res.status(400).json({ errors: result.array() });
     }
+
+    // recupera caixas 
+    let caixas = await RepositoryQuery.RecuperaTodasCaixas(); 
+
+    let caixaUltimaAvaliacao = await RepositoryQuery.RecuperaAvaliacaoCaixaAtual( req.body.idCartao);
+    let idCaixa : number = 1;
+
+      console.log(caixaUltimaAvaliacao)
+    // Caso o tipo de avaliacação seja ACERTEI e existe avaliação anterior
+    if( req.body.idTipoAvaliacao == Constants.TipoAtendimetno.ACERTEI 
+        && caixaUltimaAvaliacao.length > 0){
+        const idCaixaAtual = caixaUltimaAvaliacao[0] as any;
+        idCaixa = idCaixaAtual.idCaixa + 1;
+    }
+
+
+    // Recupera caixa de acordo com o tipo de avaliação selecionada
+    let  caixa =  caixas.filter((x: any)=>{return x.idCaixa == idCaixa})[0] as any;
+
+
+    var currentDate = new Date();
+    var futureDate = new Date(currentDate.getTime() + caixa.nroIncremento *60000);
+
     let Avaliacao = { 
                   idCartao : req.body.idCartao, 
-                  idTipoAvaliacao : req.decoded.idTipoAvaliacao,
+                  idTipoAvaliacao : req.body.idTipoAvaliacao,
+                  idCaixa : caixa.idCaixa,
+                  dtaProximaAvaliacao : futureDate
                  };
+
     let resultCreate = await this._avaliacaoRepository.create(Avaliacao);
 
 
@@ -52,39 +87,25 @@ export class AvaliacaoService {
   }
 
 
+  public async recuperaProximaAvaliacaoValidacao(req: any) {
+    await check("idConteudo")
+      .notEmpty()
+      .withMessage("Campo é de preenchimento obrigatório")
+      .run(req);
+  }
 
   public async recuperaProximaAvaliacao(req: any, res: any){
 
+    await this.recuperaProximaAvaliacaoValidacao(req);
+
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
+      return res.status(400).json({ errors: result.array() });
+    }
 
     let idPessoa = req.decoded.idPessoa
 
-    const avaliacao  = await sequelize.query(
-    `select pergunta.txtPergunta
-    ,	  resposta.txtResposta
-    ,    conteudo.idPessoa
-    , 	caixaAcerto.DesCaixa as DesAcerto
-    ,	caixaErro.DesCaixa as DesErro
-    from Cartao cartao 
-    inner join Conteudo conteudo
-      on conteudo.idConteudo = cartao.idConteudo
-    inner join Pergunta pergunta 
-        on cartao.idCartao = pergunta.idCartao
-    inner join Resposta resposta
-        on resposta.idCartao = cartao.idCartao
-    left join Avaliacao avaliacao 
-      on avaliacao.IdCartao = cartao.IdCartao
-      and avaliacao.idAvaliacao = (select idAvaliacao from Avaliacao where cartao.IdCartao = idCartao order by DtaProximaAvaliacao limit 1 )
-    left join Caixa caixaAcerto 
-      -- Se acertar, cartão será enviado para proxima caixa 
-      on ( caixaAcerto.idCaixa = IFNULL(avaliacao.idCaixa,0) + 1)
-     left join Caixa caixaErro 
-      -- Se errar, cartão será enviado para primeira caixa
-      on ( caixaErro.idCaixa = IFNULL(avaliacao.idCaixa,1))   
-        
-    where conteudo.idPessoa = :idPessoa
-    and ( avaliacao.idCartao is null or avaliacao.DtaProximaAvaliacao <= now() )`,
-    {replacements: { idPessoa: idPessoa}, type: 'SELECT' });
-
+    const avaliacao  = await RepositoryQuery.RecuperaProximaAvaliacao( idPessoa, parseInt(req.params.idConteudo));
   
     return RetornoRequest.Response(avaliacao[0], null, res, HttpStatusCode.OK);
   }

@@ -14,7 +14,7 @@ export class Avaliacao extends Model {
     @Column(DataType.INTEGER)
     idCartao !: number;
 
-    @Column(DataType.INTEGER)
+    @Column(DataType.TINYINT)
     idCaixa!:number;
 
     @Column(DataType.INTEGER)
