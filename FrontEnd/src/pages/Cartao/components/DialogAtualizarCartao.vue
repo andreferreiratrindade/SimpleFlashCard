@@ -63,7 +63,7 @@ export default class DialogAtualizarCartao extends Vue{
     public cartao : _modelsInput.Cartao = {
       txtPergunta: "",
       txtResposta: "",
-      idConteudo: null,
+      idConteudo: 0,
       idCartao : this.idCartao
     }
 
@@ -89,7 +89,7 @@ export default class DialogAtualizarCartao extends Vue{
       .atualizar(this.cartao)
       .then((result: any) => {
         this.$q.notify(result);
-        this.cartao = {txtResposta:null, txtPergunta: null, idCartao: null,idConteudo: null}
+        this.cartao = {txtResposta:"", txtPergunta: "", idCartao: null,idConteudo: 0}
         this.showModal = false;
         this.refreshTable();
       })
