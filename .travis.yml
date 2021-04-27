@@ -4,7 +4,7 @@ node_js:
 script:
   - cd BackEnd
   - npm install
-  - npm build
+  - npm run-script build
   - echo "skipping tests"
   - cd ..
   - cd FrontEnd
