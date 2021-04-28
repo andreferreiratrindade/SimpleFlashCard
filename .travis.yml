@@ -18,7 +18,7 @@ script:
 after_success:
   - rm -rf /tmp/SimpleFlashCard
   - git clone  https://github.com/andreferreiratrindade/SimpleFlashCardBackEndDeploy.git  /tmp/SimpleFlashCard/
-  - cp -r BackEnd/dist/* /tmp/SimpleFlashCard/
+  - cp -r dist/* /tmp/SimpleFlashCard/
   - cd /tmp/SimpleFlashCard/
   - git config user.email "andreferreiratrindade@gmail.com"
   - git config user.name "André"
@@ -27,11 +27,3 @@ after_success:
   - git checkout master
   - git remote add deploy "https://$GITHUB_TOKEN@github.com/andreferreiratrindade/SimpleFlashCardBackEndDeploy.git"
   - git push deploy master
-deploy:
- provider: pages
- skip-cleanup: true
- keep-history: true
- github-token: $GITHUB_TOKEN
- on:
-   branch: main
- local_dir: dist
