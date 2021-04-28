@@ -1,14 +1,37 @@
 language: node_js
 node_js:
   - 14.15.0 
+branches:
+ only:
+ — main
 script:
   - cd BackEnd
   - npm install
   - npm run-script build
   - echo "skipping tests"
-  - cd ..
-  - cd FrontEnd
-  - npm install -g @quasar/cli
-  - npm install
-  - echo "skipping tests"
-  - quasar build 
+  # - cd ..
+  # - cd FrontEnd
+  # - npm install -g @quasar/cli
+  # - npm install
+  # - echo "skipping tests"
+  # - quasar build 
+after_success:
+  - rm -rf /tmp/SimpleFlashCard
+  - git clone  https://github.com/andreferreiratrindade/andreferreiratrindade.github.io.git  /tmp/SimpleFlashCard/
+  - cp -r dist/* /tmp/SimpleFlashCard/
+  - cd /tmp/SimpleFlashCard/
+  - git config user.email "andreferreiratrindade@gmail.com"
+  - git config user.name "André"
+  - git add --all
+  - git commit -a -m "deploy"
+  - git checkout master
+  - git remote add deploy "https://$GITHUB_TOKEN@github.com/andreferreiratrindade/andreferreiratrindade.github.io.git"
+  - git push deploy master
+deploy:
+ provider: pages
+ skip-cleanup: true
+ keep-history: true
+ github-token: $GITHUB_TOKEN
+ on:
+   branch: main
+ local_dir: dist
