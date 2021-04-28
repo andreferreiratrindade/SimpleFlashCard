@@ -50,7 +50,7 @@ export default class DialogExclusaoConteudo extends Vue{
         this.showModal = true;
         this.idConteudo = idConteudo;
 
-        this._conteudoService.RecuperaPorId(this.idConteudo)
+        this._conteudoService.RecuperaPorId(this.idConteudo?? 0)
         .then((result: any) => {
           this.conteudo = result;
         })
@@ -64,7 +64,7 @@ export default class DialogExclusaoConteudo extends Vue{
 
    public salvar() {
     this._conteudoService
-      .excluir(this.conteudo.idConteudo)
+      .excluir(this.conteudo.idConteudo ?? 0)
       .then((result: any) => {
         this.$q.notify(result);
         this.showModal = false;

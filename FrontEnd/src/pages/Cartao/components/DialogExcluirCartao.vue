@@ -58,7 +58,7 @@ export default class DialogExcluirCartao extends Vue{
     public cartao : _modelsInput.Cartao = {
       txtPergunta: "",
       txtResposta: "",
-      idConteudo: null,
+      idConteudo: 0,
       idCartao: this.idCartao
     }
 
@@ -81,7 +81,7 @@ export default class DialogExcluirCartao extends Vue{
 
    public salvar() {
     this._cartaoService
-      .excluir(this.cartao.idCartao)
+      .excluir(this.cartao.idCartao ?? 0)
       .then((result: any) => {
         this.$q.notify(result);
         this.showModal = false;

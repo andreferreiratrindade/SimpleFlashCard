@@ -1,8 +1,14 @@
 language: node_js
 node_js:
-  - 14.15.0
-before_script:
+  - 14.15.0 
+script:
   - cd BackEnd
   - npm install
-script:
+  - npm run-script build
   - echo "skipping tests"
+  - cd ..
+  - cd FrontEnd
+  - npm install -g @quasar/cli
+  - npm install
+  - echo "skipping tests"
+  - quasar build 
