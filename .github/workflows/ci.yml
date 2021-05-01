@@ -19,4 +19,10 @@ jobs:
       run:  |
         cd BackEnd
         npm install
-        npm run-script build  
+        npm run-script build 
+    - name: Add remote origin
+      run: |
+        git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
+    - name: Deploy to Heroku
+      run: |
+        git subtree push --prefix BackEnd heroku HEAD:main -f
