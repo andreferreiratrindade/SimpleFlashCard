@@ -44,7 +44,7 @@ export class ConteudoService {
 
   public async listagem(req: any, res: any){
 
-    const conteudos  =  await RepositoryQuery.ReupceraListaCartao(req.decoded.idPessoa); 
+    const conteudos  =  await RepositoryQuery.RecuperaConteudos(req.decoded.idPessoa); 
 
     return RetornoRequest.Response(conteudos, null, res, HttpStatusCode.OK);
 
