@@ -9,17 +9,13 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
-    - name: Run BackEnd - NodeJs
+    - name: Run BackEnd / FrontEnd- NodeJs - Quasar
       run: |
         cd BackEnd
         npm install
         npm run-script build
-        echo "skipping tests"
-    - name: Run FrontEnd - Quasar 
-      run:  |
         cd ..
         cd FrontEnd
         npm install -g @quasar/cli
         npm install
-        echo "skipping tests"
         quasar build 
