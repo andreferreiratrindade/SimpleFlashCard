@@ -17,6 +17,7 @@ jobs:
         echo "skipping tests"
     - name: Run FrontEnd - Quasar 
       run:  |
+        cd ..
         cd FrontEnd
         npm install -g @quasar/cli
         npm install
