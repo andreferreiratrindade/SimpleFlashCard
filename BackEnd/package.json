@@ -7,7 +7,7 @@
     "start": "tsc && nodemon ./dist/app",
     "build": "tsc",
     "tsc": "tsc",
-    "postinstall": "npm run tsc"
+    "heroku-prebuild": "npm install -g typescript"
   },
   "author": "",
   "license": "ISC",
