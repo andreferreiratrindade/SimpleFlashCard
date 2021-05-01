@@ -12,6 +12,5 @@ jobs:
     - name: Run BackEnd / FrontEnd- NodeJs - Quasar
       run: |
         cd FrontEnd
-        sudo npm install -g @quasar/cli
         npm install
         quasar build 
