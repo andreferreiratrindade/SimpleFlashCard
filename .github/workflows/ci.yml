@@ -9,8 +9,14 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
-    - name: Run BackEnd / FrontEnd- NodeJs - Quasar
+    - name: Run FrontEnd  - Quasar
       run: |
         cd FrontEnd
+        sudo npm install -g @quasar/cli
         npm install
         quasar build 
+    - name: Run BackEnd - NodeJs
+      run:  |
+        cd BackEnd
+        npm install
+        npm run-script build  
