@@ -4,10 +4,10 @@
   "main": "dist/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc && nodemon ./dist/app",
+    "start": "node ./dist/app",
     "build": "tsc",
     "tsc": "tsc",
-    "heroku-prebuild": "npm install -g typescript"
+    "heroku-prebuild": "npm install -g typescript && npm install"
   },
   "author": "",
   "license": "ISC",
