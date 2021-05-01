@@ -1,22 +1,22 @@
 import { sequelize } from "../instances/sequelize";
 
-export class RepositoryQuery{
+export class RepositoryQuery {
 
-    static async RecuperaTodasCaixas(){
-        return await sequelize.query(
-            `select caixa.idCaixa, caixa.nroIncremento, caixa.desCaixa from Caixa caixa`,
-            { type: 'SELECT' });
-    }
+  static async RecuperaTodasCaixas() {
+    return await sequelize.query(
+      `select caixa.idCaixa, caixa.nroIncremento, caixa.desCaixa from Caixa caixa`,
+      { type: 'SELECT' });
+  }
 
-    static async RecuperaAvaliacaoCaixaAtual(idCartao:number){
-        return await sequelize.query(
-            `select idCaixa from Avaliacao where idCartao = :idCartao order by idCartao limit 1 `,
-            {replacements: { idCartao: idCartao}, type: 'SELECT' });
-    }
+  static async RecuperaAvaliacaoCaixaAtual(idCartao: number) {
+    return await sequelize.query(
+      `select idCaixa from Avaliacao where idCartao = :idCartao order by idCartao limit 1 `,
+      { replacements: { idCartao: idCartao }, type: 'SELECT' });
+  }
 
-    static async RecuperaProximaAvaliacao(idPessoa : number, idConteudo:number){
-        return await sequelize.query(
-            `select pergunta.txtPergunta
+  static async RecuperaProximaAvaliacao(idPessoa: number, idConteudo: number) {
+    return await sequelize.query(
+      `select pergunta.txtPergunta
             ,	resposta.txtResposta
             ,   conteudo.idPessoa
             , 	caixaAcerto.DesCaixa as desAcerto
@@ -42,7 +42,50 @@ export class RepositoryQuery{
             where conteudo.idPessoa = :idPessoa
             and conteudo.idConteudo = :idConteudo
             and ( avaliacao.idCartao is null or avaliacao.DtaProximaAvaliacao <= now() )`,
-            {replacements: { idPessoa: idPessoa, idConteudo : idConteudo}, type: 'SELECT' });
-        
-    }
+      { replacements: { idPessoa: idPessoa, idConteudo: idConteudo }, type: 'SELECT' });
+
+  }
+
+  static async RecuperaCartaoPorId(idCartao: number) {
+    return await sequelize.query(
+      `select pergunta.txtPergunta
+        , resposta.txtResposta
+        , cartao.idCartao
+        , pergunta.idPergunta
+        , resposta.idResposta
+         from Cartao cartao
+        inner join Pergunta pergunta
+          on pergunta.IdCartao = cartao.IdCartao
+        inner join Resposta resposta
+          on resposta.IdCartao = cartao.IdCartao
+          where cartao.IdCartao = :idCartao `,
+      { replacements: { idCartao: idCartao }, type: 'SELECT' });
+  }
+
+  static async ReupceraListaCartao(idConteudo: number) {
+    return await sequelize.query(
+      `select pergunta.txtPergunta
+      , resposta.txtResposta
+      , cartao.idCartao
+      , pergunta.idPergunta
+      , resposta.idResposta
+       from Cartao cartao
+      inner join Pergunta pergunta
+        on pergunta.IdCartao = cartao.IdCartao
+      inner join Resposta resposta
+        on resposta.IdCartao = cartao.IdCartao
+        where cartao.IdConteudo = :idConteudo `,
+      { replacements: { idConteudo: idConteudo }, type: 'SELECT' });
+  }
+
+  static async RecuperaConteudos(idPessoa : number){
+    return await sequelize.query(
+      `select conteudo.idConteudo, 
+              conteudo.nmeConteudo,
+              (select count(idCartao) from Cartao where idConteudo =  conteudo.idConteudo   ) as qtdCartao
+         from Conteudo conteudo
+  
+        where conteudo.IdPessoa = :idPessoa `,
+      {replacements: { idPessoa:  idPessoa}, type: 'SELECT' });
+  }
 }

@@ -1,11 +1,11 @@
-@baseUrl = http://localhost:3000
+@baseUrl = https://afternoon-garden-95224.herokuapp.com
 
 # @name login
 POST {{baseUrl}}/pessoa/login HTTP/1.1
 content-type: application/json
 
 {
-    "txtEmail": "teste1@teste",
+    "txtEmail": "andre@gmail",
     "txtSenha": "123456"
 }
 
@@ -14,7 +14,7 @@ content-type: application/json
 
 # @name createConteudo
 POST {{baseUrl}}/api/conteudo HTTP/1.1
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJubWVQZXNzb2EiOiJBbmRyw6kiLCJ0eHRFbWFpbCI6InRlc3RlMUB0ZXN0ZSIsImlkUGVzc29hIjo3LCJpYXQiOjE2MTkxMTA3NjR9.jqg9tPidxflXmKRTb4_aY3CLf9aXkKuYaWfyOSdutfY
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTk5MDkyNjYsImV4cCI6MTYyMTcwOTI2Nn0.w2GyJQy_nhaVXFm2ut5tOxpgXGQ3VGpqbzrctunBtj4
 content-type: application/json
 
 {
@@ -26,7 +26,7 @@ content-type: application/json
 
 # @name createConteudo
 GET {{baseUrl}}/api/conteudo HTTP/1.1
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJubWVQZXNzb2EiOiJBbmRyw6kiLCJ0eHRFbWFpbCI6InRlc3RlMUB0ZXN0ZSIsImlkUGVzc29hIjo3LCJpYXQiOjE2MTkxMTA3NjR9.jqg9tPidxflXmKRTb4_aY3CLf9aXkKuYaWfyOSdutfY
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTk5MDkyNjYsImV4cCI6MTYyMTcwOTI2Nn0.w2GyJQy_nhaVXFm2ut5tOxpgXGQ3VGpqbzrctunBtj4
 content-type: application/json
 
 ###

@@ -99,8 +99,8 @@ insert into Caixa values(6,11520,'8 dias');
 insert into Caixa values(7,18720,'13 dias');
 insert into Caixa values(8,30240,'21 dias');
 insert into Caixa values(9,48960,'1 mês');
-insert into Caixa values(9,79200,'2 mêses');
-insert into Caixa values(10,128160,'3 mêses');
+insert into Caixa values(10,79200,'2 mêses');
+insert into Caixa values(11,128160,'3 mêses');
 
 
 insert into TipoAvaliacao values(1, 'Acertou');

@@ -5,6 +5,7 @@ import { Conteudo } from '../models/conteudoModel';
 import { Repository } from 'sequelize-typescript';
 import { RetornoRequest } from '../utils/retornoRequest';
 import HttpStatusCode from '../constants/HttpStatusCode';
+import { RepositoryQuery } from '../repositories/repositoryQuery';
 
 export class ConteudoService {
 
@@ -43,17 +44,9 @@ export class ConteudoService {
 
   public async listagem(req: any, res: any){
 
+    const conteudos  =  await RepositoryQuery.ReupceraListaCartao(req.decoded.idPessoa); 
 
-    const cartoes  = await sequelize.query(
-    `select conteudo.idConteudo, 
-            conteudo.nmeConteudo,
-            (select count(idCartao) from cartao where idConteudo =  conteudo.idConteudo   ) as qtdCartao
-       from Conteudo conteudo
-
-      where conteudo.IdPessoa = :idPessoa `,
-    {replacements: { idPessoa: req.decoded.idPessoa }, type: 'SELECT' });
-
-    return RetornoRequest.Response(cartoes, null, res, HttpStatusCode.OK);
+    return RetornoRequest.Response(conteudos, null, res, HttpStatusCode.OK);
 
   }
 

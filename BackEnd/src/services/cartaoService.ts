@@ -8,6 +8,7 @@ import { Cartao } from '../models/cartaoModel';
 import { Resposta } from '../models/respostaModel';
 import { Pergunta } from '../models/perguntaModel';
 import { sequelize } from '../instances/sequelize';
+import { RepositoryQuery } from '../repositories/repositoryQuery';
 
 export class CartaoService {
 
@@ -91,19 +92,8 @@ export class CartaoService {
       return res.status(400).json({ errors: result.array() });
     }
 
-    const cartoes  = await sequelize.query(
-    `select pergunta.txtPergunta
-    , resposta.txtResposta
-    , cartao.idCartao
-    , pergunta.idPergunta
-    , resposta.idResposta
-     from Cartao cartao
-    inner join Pergunta pergunta
-      on pergunta.IdCartao = cartao.IdCartao
-    inner join resposta resposta
-      on resposta.IdCartao = cartao.IdCartao
-      where cartao.IdConteudo = :idConteudo `,
-    {replacements: { idConteudo: req.query.idConteudo }, type: 'SELECT' });
+    const cartoes  =  await RepositoryQuery.ReupceraListaCartao(req.query.idConteudo); 
+
 
     return RetornoRequest.Response(cartoes, null, res, HttpStatusCode.OK);
   }
@@ -161,19 +151,7 @@ export class CartaoService {
       return res.status(400).json({ errors: result.array() });
     }
 
-    const cartao  = await sequelize.query(
-      `select pergunta.txtPergunta
-      , resposta.txtResposta
-      , cartao.idCartao
-      , pergunta.idPergunta
-      , resposta.idResposta
-       from Cartao cartao
-      inner join Pergunta pergunta
-        on pergunta.IdCartao = cartao.IdCartao
-      inner join resposta resposta
-        on resposta.IdCartao = cartao.IdCartao
-        where cartao.IdCartao = :idCartao `,
-      {replacements: { idCartao: req.params.idCartao }, type: 'SELECT' });
+    const cartao  =  await RepositoryQuery.RecuperaCartaoPorId(req.params.idCartao); 
 
   
     return RetornoRequest.Response(cartao[0], null, res, HttpStatusCode.OK);
