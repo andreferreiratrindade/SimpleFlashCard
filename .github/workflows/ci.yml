@@ -11,10 +11,6 @@ jobs:
     - uses: actions/checkout@v1
     - name: Run BackEnd / FrontEnd- NodeJs - Quasar
       run: |
-        cd BackEnd
-        npm install
-        npm run-script build
-        cd ..
         cd FrontEnd
         npm install -g @quasar/cli
         npm install
