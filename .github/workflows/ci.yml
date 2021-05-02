@@ -17,7 +17,7 @@ jobs:
         quasar build
         mkdir -p tmp
         cd tmp
-        git clone  hhttps://github.com/andreferreiratrindade/SimpleFlashCardFrontEnd.git 
+        git clone  https://github.com/andreferreiratrindade/SimpleFlashCardFrontEnd.git 
         cd ..
         sudo cp -r dist/spa tmp/SimpleFlashCardFrontEnd
         cd tmp/SimpleFlashCardFrontEnd
