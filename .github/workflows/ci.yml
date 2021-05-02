@@ -17,16 +17,16 @@ jobs:
         quasar build
         mkdir -p tmp
         cd tmp
-        git clone  https://github.com/andreferreiratrindade/SimpleFlashCardBackEndDeploy.git  
+        git clone  hhttps://github.com/andreferreiratrindade/SimpleFlashCardFrontEnd.git 
         cd ..
-        sudo cp -r dist/spa tmp/SimpleFlashCardBackEndDeploy
-        cd tmp/SimpleFlashCardBackEndDeploy
+        sudo cp -r dist/spa tmp/SimpleFlashCardFrontEnd
+        cd tmp/SimpleFlashCardFrontEnd
         git config user.email "andreferreiratrindade@gmail.com"
         git config user.name "André"
         git add --all
         git commit -a -m "deploy"
         git checkout master
-        git remote add deploy "https://${{ secrets.GH_TOKEN }}@github.com/andreferreiratrindade/SimpleFlashCardBackEndDeploy.git"
+        git remote add deploy "https://${{ secrets.GH_TOKEN }}@github.com/andreferreiratrindade/SimpleFlashCardFrontEnd.git"
         git push deploy master 
     - name: Run BackEnd - NodeJs
       run:  |
