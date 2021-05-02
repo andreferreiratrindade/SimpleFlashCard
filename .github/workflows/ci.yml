@@ -23,7 +23,7 @@ jobs:
         git add --all
         git commit -a -m "deploy"
         git checkout master
-        git remote add deploy "https://${{ GH_TOKEN }}@github.com/andreferreiratrindade/SimpleFlashCardBackEndDeploy.git"
+        git remote add deploy "https://${{ secrets.GH_TOKEN }}@github.com/andreferreiratrindade/SimpleFlashCardBackEndDeploy.git"
         git push deploy master 
     - name: Run BackEnd - NodeJs
       run:  |
