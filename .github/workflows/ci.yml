@@ -15,8 +15,10 @@ jobs:
         sudo npm install -g @quasar/cli
         npm install
         quasar build
-        sudo chmod -R 755 /home/runner/work/SimpleFlashCard/SimpleFlashCard/FrontEnd/dist/spa
-        sudo git clone  https://github.com/andreferreiratrindade/SimpleFlashCardBackEndDeploy.git  /tmp/SimpleFlashCardBackEndDeploy
+        mkdir -p tmp
+        cd tmp
+        git clone  https://github.com/andreferreiratrindade/SimpleFlashCardBackEndDeploy.git  
+        cd ..
         sudo cp -r dist/spa tmp/SimpleFlashCardBackEndDeploy
         cd tmp/SimpleFlashCardBackEndDeploy
         git config user.email "andreferreiratrindade@gmail.com"
