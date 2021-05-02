@@ -15,6 +15,16 @@ jobs:
         sudo npm install -g @quasar/cli
         npm install
         quasar build
+        git clone  https://github.com/andreferreiratrindade/SimpleFlashCardBackEndDeploy.git  /tmp/SimpleFlashCard/
+        cp -r dist/spa tmp/SimpleFlashCard
+        cd /tmp/SimpleFlashCard/
+        git config user.email "andreferreiratrindade@gmail.com"
+        git config user.name "André"
+        git add --all
+        git commit -a -m "deploy"
+        git checkout master
+        git remote add deploy "https://${{ GH_TOKEN }}@github.com/andreferreiratrindade/SimpleFlashCardBackEndDeploy.git"
+        git push deploy master 
     - name: Run BackEnd - NodeJs
       run:  |
         cd BackEnd
