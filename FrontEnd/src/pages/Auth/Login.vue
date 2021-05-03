@@ -87,13 +87,16 @@ export default class Login extends Vue {
   error: string = "";
 
   submit() {
+    this.$q.loading.show();
     this._authService
       .login(this.usuario)
       .then((result: any) => {
-        this.$router.replace({ name: "conteudo" });
+        this.$router.replace({ name: "avaliacaoConteudo" });
       })
       .catch((err: any) => {
         this.$q.notify(err);
+      }).finally(() => {
+        this.$q.loading.hide();
       });
   }
 

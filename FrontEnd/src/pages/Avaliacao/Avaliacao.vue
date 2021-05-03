@@ -75,6 +75,8 @@ export default class Avaliacao extends Vue {
 
   recuperaProximaAvaliacao() {
     this.loading = true;
+    this.$q.loading.show();
+
     this._avaliacaoService
       .recuperaProximaAvaliacao(this.idConteudo)
       .then((result) => {
@@ -83,11 +85,16 @@ export default class Avaliacao extends Vue {
         this.mostrarResposta = false;
         this.loading = false;
       })
-      .catch()
-      .finally();
+      .catch((err: any) => {
+        this.$q.notify(err);
+      })
+         .finally(() => {
+        this.$q.loading.hide();
+      });
   }
 
   created() {
+
     this._avaliacaoService = new AvaliacaoService();
     this.idConteudo = parseInt(this.$route.params.idConteudo);
 
@@ -96,7 +103,8 @@ export default class Avaliacao extends Vue {
 
   errou() {
     this.avaliacao.idTipoAvaliacao = 2;
-
+    this.$q.loading.show();
+    
     this._avaliacaoService
       .adicionar(this.avaliacao)
       .then((result: any) => {
@@ -113,6 +121,8 @@ export default class Avaliacao extends Vue {
 
   acertou() {
     this.avaliacao.idTipoAvaliacao = 1;
+    this.$q.loading.show();
+
     this._avaliacaoService
       .adicionar(this.avaliacao)
       .then((result: any) => {
