@@ -7,9 +7,7 @@ on:
     branches: [ main ]
 jobs:
   build:
-
-    runs-on: ubuntu-latest
-    
+    runs-on: ubuntu-latest   
     steps:
     - uses: actions/checkout@v1
     - name: Run FrontEnd  - Quasar
@@ -18,9 +16,19 @@ jobs:
         sudo npm install -g @quasar/cli
         npm install
         quasar build
+
+    - name: Run BackEnd - NodeJs
+      run:  |
+        cd BackEnd
+        npm install
+        npm run-script build 
+  
+  deploy:
+    - name: Deploy FrontEnd - Quasar
+      run: |
         mkdir -p tmp
         cd tmp
-        git clone  https://github.com/andreferreiratrindade/SimpleFlashCardFrontEnd.git 
+        git clone  https://github.com/andreferreiratrindade/SimpleFlashCardFrontEnd.git
         cd ..
         sudo cp -r dist/spa tmp/SimpleFlashCardFrontEnd
         cd tmp/SimpleFlashCardFrontEnd
@@ -29,16 +37,11 @@ jobs:
         git fetch
         git pull
         git clean -f
-        git add --all
+        git add . --all
         git commit -a -m "deploy"
         git checkout master
         git remote add deploy "https://${{ secrets.GH_TOKEN }}@github.com/andreferreiratrindade/SimpleFlashCardFrontEnd.git"
         git push  deploy master -f
-    - name: Run BackEnd - NodeJs
-      run:  |
-        cd BackEnd
-        npm install
-        npm run-script build 
     - name: Add remote origin
       run: |
         git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
