@@ -23,11 +23,13 @@ jobs:
         cd tmp/SimpleFlashCardFrontEnd
         git config user.email "andreferreiratrindade@gmail.com"
         git config user.name "André"
+        git fetch
+        git pull
         git add --all
         git commit -a -m "deploy"
         git checkout master
-        git remote add deploy "https://${{ secrets.GH_TOKEN }}@github.com/andreferreiratrindade/SimpleFlashCardFrontEnd.git"
-        git push deploy master --force
+        git remote add origin "https://${{ secrets.GH_TOKEN }}@github.com/andreferreiratrindade/SimpleFlashCardFrontEnd.git"
+        git push -f origin master 
     - name: Run BackEnd - NodeJs
       run:  |
         cd BackEnd
