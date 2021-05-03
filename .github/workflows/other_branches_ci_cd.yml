@@ -1,0 +1,24 @@
+name: Outras Branches - CI / CD
+
+on:
+  push:
+    branches-ignore: [ main ]
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: Run FrontEnd  - Quasar
+      run: |
+        cd FrontEnd
+        sudo npm install -g @quasar/cli
+        npm install
+        quasar build
+
+    - name: Run BackEnd - NodeJs
+      run:  |
+        cd BackEnd
+        npm install
+        npm run-script build 

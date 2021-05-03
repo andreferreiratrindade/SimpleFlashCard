@@ -1,4 +1,4 @@
-name: CI
+name: MAIN - CI / CD
 
 on:
   push:
@@ -44,27 +44,3 @@ jobs:
     - name: Deploy BackEnd to Heroku
       run: |
         git subtree push --prefix BackEnd heroku main
-
-
-on:
-  push:
-    branches-ignore: [ main ]
-jobs:
-  build:
-
-    runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v1
-    - name: Run FrontEnd  - Quasar
-      run: |
-        cd FrontEnd
-        sudo npm install -g @quasar/cli
-        npm install
-        quasar build
-
-    - name: Run BackEnd - NodeJs
-      run:  |
-        cd BackEnd
-        npm install
-        npm run-script build 
