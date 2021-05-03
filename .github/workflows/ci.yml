@@ -27,7 +27,7 @@ jobs:
         git commit -a -m "deploy"
         git checkout master
         git remote add deploy "https://${{ secrets.GH_TOKEN }}@github.com/andreferreiratrindade/SimpleFlashCardFrontEnd.git"
-        git push deploy master 
+        git push deploy master --force
     - name: Run BackEnd - NodeJs
       run:  |
         cd BackEnd
