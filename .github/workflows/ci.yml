@@ -28,8 +28,8 @@ jobs:
         git add --all
         git commit -a -m "deploy"
         git checkout master
-        git remote add origin "https://${{ secrets.GH_TOKEN }}@github.com/andreferreiratrindade/SimpleFlashCardFrontEnd.git"
-        git push -f origin master 
+        git remote add deploy "https://${{ secrets.GH_TOKEN }}@github.com/andreferreiratrindade/SimpleFlashCardFrontEnd.git"
+        git push  deploy master -f
     - name: Run BackEnd - NodeJs
       run:  |
         cd BackEnd
