@@ -23,7 +23,12 @@ jobs:
         npm install
         npm run-script build 
   
-  deploy:
+  deploy-prd:
+    runs-on: ubuntu-latest   
+    environment:  
+      name: prd
+    needs: build
+    steps:
     - name: Deploy FrontEnd - Quasar
       run: |
         mkdir -p tmp
@@ -37,7 +42,7 @@ jobs:
         git fetch
         git pull
         git clean -f
-        git add . --all
+        git add --all
         git commit -a -m "deploy"
         git checkout master
         git remote add deploy "https://${{ secrets.GH_TOKEN }}@github.com/andreferreiratrindade/SimpleFlashCardFrontEnd.git"
