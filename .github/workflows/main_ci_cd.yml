@@ -48,11 +48,12 @@ jobs:
         git commit -a -m "limpando base de dados"
         git remote add deploy "https://${{ secrets.GH_TOKEN }}@github.com/andreferreiratrindade/SimpleFlashCardFrontEnd.git"
         git push  deploy master -f
+        git fetch
+        git pull
+        cd ..
         cd ..
         sudo cp -r dist/spa tmp/SimpleFlashCardFrontEnd
         cd tmp/SimpleFlashCardFrontEnd
-        git fetch
-        git pull
         git add --all        
         git checkout master
         git remote add deploy "https://${{ secrets.GH_TOKEN }}@github.com/andreferreiratrindade/SimpleFlashCardFrontEnd.git"
