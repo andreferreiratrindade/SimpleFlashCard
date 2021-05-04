@@ -23,44 +23,44 @@ jobs:
         npm install
         npm run-script build 
   
-  deploy-prd:
-    runs-on: ubuntu-latest   
-    environment:  
-      name: prd
-    needs: build
-    steps:
-    - name: Deploy FrontEnd - Quasar
-      run: |
-        cd FrontEnd
-        sudo npm install -g @quasar/cli
-        npm install
-        quasar build
-        mkdir -p tmp
-        cd tmp
-        git clone  https://github.com/andreferreiratrindade/SimpleFlashCardFrontEnd.git
-        cd SimpleFlashCardFrontEnd
-        git config user.email "andreferreiratrindade@gmail.com"
-        git config user.name "André"
-        git fetch
-        git checkout master
-        git pull
-        git rm -r *
-        git commit -a -m "limpando base de dados"
-        git remote add deploy "https://${{ secrets.GH_TOKEN }}@github.com/andreferreiratrindade/SimpleFlashCardFrontEnd.git"
-        git push  deploy master -f
-        git fetch
-        git pull
-        cd ..
-        cd ..
-        sudo cp -r dist/spa tmp/SimpleFlashCardFrontEnd
-        cd tmp/SimpleFlashCardFrontEnd
-        git add --all        
-        git checkout master
-        git remote add deploy "https://${{ secrets.GH_TOKEN }}@github.com/andreferreiratrindade/SimpleFlashCardFrontEnd.git"
-        git push  deploy master -f
-    - name: Add remote origin
-      run: |
-        git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
-    - name: Deploy BackEnd to Heroku
-      run: |
-        git subtree push --prefix BackEnd heroku main
+  # deploy-prd:
+  #   runs-on: ubuntu-latest   
+  #   environment:  
+  #     name: prd
+  #   needs: build
+  #   steps:
+  #   - name: Deploy FrontEnd - Quasar
+  #     run: |
+  #       cd FrontEnd
+  #       sudo npm install -g @quasar/cli
+  #       npm install
+  #       quasar build
+  #       mkdir -p tmp
+  #       cd tmp
+  #       git clone  https://github.com/andreferreiratrindade/SimpleFlashCardFrontEnd.git
+  #       cd SimpleFlashCardFrontEnd
+  #       git config user.email "andreferreiratrindade@gmail.com"
+  #       git config user.name "André"
+  #       git fetch
+  #       git checkout master
+  #       git pull
+  #       git rm -r *
+  #       git commit -a -m "limpando base de dados"
+  #       git remote add deploy "https://${{ secrets.GH_TOKEN }}@github.com/andreferreiratrindade/SimpleFlashCardFrontEnd.git"
+  #       git push  deploy master -f
+  #       git fetch
+  #       git pull
+  #       cd ..
+  #       cd ..
+  #       sudo cp -r dist/spa tmp/SimpleFlashCardFrontEnd
+  #       cd tmp/SimpleFlashCardFrontEnd
+  #       git add --all        
+  #       git checkout master
+  #       git remote add deploy "https://${{ secrets.GH_TOKEN }}@github.com/andreferreiratrindade/SimpleFlashCardFrontEnd.git"
+  #       git push  deploy master -f
+  #   - name: Add remote origin
+  #     run: |
+  #       git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
+  #   - name: Deploy BackEnd to Heroku
+  #     run: |
+  #       git subtree push --prefix BackEnd heroku main
