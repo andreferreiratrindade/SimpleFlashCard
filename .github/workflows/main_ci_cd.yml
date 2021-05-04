@@ -31,19 +31,29 @@ jobs:
     steps:
     - name: Deploy FrontEnd - Quasar
       run: |
+        cd FrontEnd
+        sudo npm install -g @quasar/cli
+        npm install
+        quasar build
         mkdir -p tmp
         cd tmp
         git clone  https://github.com/andreferreiratrindade/SimpleFlashCardFrontEnd.git
-        cd ..
-        sudo cp -r dist/spa tmp/SimpleFlashCardFrontEnd
-        cd tmp/SimpleFlashCardFrontEnd
+        cd SimpleFlashCardFrontEnd
         git config user.email "andreferreiratrindade@gmail.com"
         git config user.name "André"
         git fetch
+        git checkout master
         git pull
-        git clean -f
-        git add --all
-        git commit -a -m "deploy"
+        git rm -r *
+        git commit -a -m "limpando base de dados"
+        git remote add deploy "https://${{ secrets.GH_TOKEN }}@github.com/andreferreiratrindade/SimpleFlashCardFrontEnd.git"
+        git push  deploy master -f
+        cd ..
+        sudo cp -r dist/spa tmp/SimpleFlashCardFrontEnd
+        cd tmp/SimpleFlashCardFrontEnd
+        git fetch
+        git pull
+        git add --all        
         git checkout master
         git remote add deploy "https://${{ secrets.GH_TOKEN }}@github.com/andreferreiratrindade/SimpleFlashCardFrontEnd.git"
         git push  deploy master -f
