@@ -1,22 +1,21 @@
 import { Sequelize } from 'sequelize-typescript';
+import { Config } from '../config/Config';
 import { Avaliacao } from '../models/avaliacaoModel';
 import { Cartao } from '../models/cartaoModel';
 import { Conteudo } from '../models/conteudoModel';
 import { Pergunta } from '../models/perguntaModel';
 import {  Pessoa } from '../models/pessoaModel';
 import { Resposta } from '../models/respostaModel';
-//https://freedb.tech/dashboard/index.php
-const db = 'freedbtech_SimpleFlashCard'
-const username = 'freedbtech_ifpt'
-const password = 'Mudar123'
+const dataBaseInfo = Config.databaseInfo();
 
-export const sequelize = new Sequelize(db, username, password, {
+console.log(dataBaseInfo);
+export const sequelize = new Sequelize(dataBaseInfo.db, dataBaseInfo.username, dataBaseInfo.password, {
   dialect: "mysql",
-  port: 3306,
-  host:"freedb.tech",
+  port: dataBaseInfo.port,
+  host:dataBaseInfo.host,
   models: [Pessoa, Conteudo, Cartao, Pergunta, Resposta, Avaliacao],
   repositoryMode: true,
-  logging: false,
+  logging:  dataBaseInfo.logging 
 });
 
 sequelize.authenticate()

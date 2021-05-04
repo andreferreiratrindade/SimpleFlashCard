@@ -1,6 +1,3 @@
-
-
-import * as Config from '../config/config.json'
 import * as Jwt from 'jsonwebtoken'
 import { CryptService } from './cryptService';
 import { check, validationResult } from 'express-validator';
@@ -9,6 +6,7 @@ import { Repository } from 'sequelize-typescript';
 import { TokenService } from './tokenService';
 import { RetornoRequest } from '../utils/retornoRequest';
 import HttpStatusCode from '../constants/HttpStatusCode';
+import { Config } from '../config/Config';
 
 
 export class PessoaService {
@@ -114,7 +112,7 @@ export class PessoaService {
 
     let result = {
       pessoa: tokenData,
-      token: Jwt.sign(tokenData, Config.key.privateKey, { expiresIn: Config.key.tokenExpiry }),
+      token: Jwt.sign(tokenData, Config.keyInfo().privateKey, { expiresIn: Config.keyInfo().tokenExpiry }),
     };
 
     return RetornoRequest.Response(result, null, res, HttpStatusCode.OK);
