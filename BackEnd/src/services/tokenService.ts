@@ -1,7 +1,7 @@
 
 import jwt from 'jsonwebtoken'
-import * as config from '../config/config.json'
 import { IncomingHttpHeaders } from 'http';
+import { Config } from '../config/Config';
 
 class TokenService {
 
@@ -14,7 +14,7 @@ class TokenService {
     console.log(token)
     // decode token
     if (token) {
-      jwt.verify(token, config.key.privateKey, (err: any, decoded: any) => {
+      jwt.verify(token, Config.keyInfo().privateKey, (err: any, decoded: any) => {
 
         if (err) {
           return res.json({ success: false, message: 'Failed to authenticate token.' });

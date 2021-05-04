@@ -4,10 +4,11 @@
   "main": "dist/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./dist/app",
+    "start": "tsc && node ./dist/app",
     "build": "tsc",
     "tsc": "tsc",
-    "heroku-prebuild": "npm install -g typescript && npm install"
+    "heroku-prebuild": "npm install -g typescript && npm install",
+    "heroku-start": "node ./dist/app"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +17,7 @@
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^6.10.0",
     "jsonwebtoken": "^8.5.1",
