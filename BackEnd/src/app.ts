@@ -1,6 +1,6 @@
 
 import express from 'express';
-import * as config from './config/config.json'
+
 import bodyParser from 'body-parser'
 import logger from 'morgan'
 import cors from 'cors'
@@ -16,6 +16,7 @@ import { Pergunta } from './models/perguntaModel';
 import { Resposta } from './models/respostaModel';
 import { AvaliacaoRoute } from './routes/AvaliacaoRoute';
 import { Avaliacao } from './models/avaliacaoModel';
+import { Config } from './config/Config';
 const app = express();
 const apiRoutes = express.Router()
 
@@ -53,12 +54,8 @@ let avaliacaoRouter = new AvaliacaoRoute(avaliacaoRepository);
 
  app.use('/api',apiRoutes);
 
- //Testando a brench
 
-
-  
-
-var port = config.server.port;
+var port = Config.serverInfo().port;
 
 app.listen(process.env.PORT || port);
 
