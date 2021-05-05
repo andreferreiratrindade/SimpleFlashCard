@@ -7,6 +7,17 @@
       <q-breadcrumbs-el label="Avaliação"  />
     </q-breadcrumbs>
     </div>
+
+    <div>
+      <q-chip>
+        <q-avatar color="red" text-color="white">{{totalFeitoHoje}}</q-avatar>
+        Revisados hoje
+      </q-chip>
+      <q-chip>
+        <q-avatar color="positive" text-color="white">{{totalParaFazerHoje}}</q-avatar>
+        Aguardando revisão para hoje
+      </q-chip>
+    </div>
     
     <div class="q-pa-md row text-center self-center" v-if="cartaoEncontrado ">
       <h4 text-h4 class="col-12">
@@ -63,6 +74,8 @@ export default class Avaliacao extends Vue {
   loading: boolean = true;
   mostrarResposta: boolean = false;
   cartaoEncontrado: boolean = false;
+  totalFeitoHoje:number= 0;
+  totalParaFazerHoje:number = 0;
   public idConteudo: number = 0;
   public avaliacao: _modelsInput.Avaliacao = {
     idCartao: null,
@@ -76,6 +89,8 @@ export default class Avaliacao extends Vue {
   recuperaProximaAvaliacao() {
     this.loading = true;
     this.$q.loading.show();
+
+    this.recuperaTotalRealizado();
 
     this._avaliacaoService
       .recuperaProximaAvaliacao(this.idConteudo)
@@ -91,6 +106,18 @@ export default class Avaliacao extends Vue {
          .finally(() => {
         this.$q.loading.hide();
       });
+  }
+
+  recuperaTotalRealizado(){
+    this._avaliacaoService
+      .recuperaTotalRealizado(this.idConteudo)
+      .then((result) => {
+        this.totalParaFazerHoje = result.TotalParaFazerHoje;
+        this.totalFeitoHoje = result.TotalFeitoHoje;
+      })
+      .catch((err: any) => {
+        this.$q.notify(err);
+      })
   }
 
   created() {

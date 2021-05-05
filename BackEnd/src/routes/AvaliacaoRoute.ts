@@ -30,6 +30,15 @@ export class AvaliacaoRoute {
             return avaliacaoService.recuperaProximaAvaliacao(request,response);
         });
 
+        router.get("/RecuperaTotalAvaliacaoPorTotalPrevisto/:idConteudo",(request: any,response:any)=>{
+            console.log("recuperaTotalAvaliacaoPorTotalPrevisto");
+            let avaliacaoService = new AvaliacaoService(this._avaliacaoRepository);
+            return avaliacaoService.recuperaTotalAvaliacaoPorTotalPrevisto(request,response);
+        });
+
+
+        
+
 
         return router;
     }

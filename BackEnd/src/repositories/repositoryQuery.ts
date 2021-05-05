@@ -88,4 +88,48 @@ export class RepositoryQuery {
         where conteudo.IdPessoa = :idPessoa `,
       {replacements: { idPessoa:  idPessoa}, type: 'SELECT' });
   }
+
+  /**
+   * Recupera total de avaliações para serem realizadas hoje e total de avaliações realizadas hoje
+   *
+   * @param idConteudo
+   */
+  static async RecuperaTotalAvaliacaoPorTotalPrevisto(idConteudo : number){
+    return await sequelize.query(
+      `select (
+        select count(distinct cartao.IdCartao) as TotalParaFazerHoje
+        from Conteudo conteudo
+        inner join Cartao cartao 
+          on conteudo.IdConteudo = cartao.IdConteudo
+        left join Avaliacao avaliacao 
+          on avaliacao.IdCartao  =cartao.IdCartao
+        where conteudo.IdConteudo = :IdConteudo and(ifnull(avaliacao.IdAvaliacao,0) = 0  
+			or (
+				CURDATE() = DATE_FORMAT(DtaProximaAvaliacao, '%Y-%m-%d')
+			))
+          and avaliacao.idAvaliacao = (select max(idAvaliacao) from Avaliacao where IdCartao  =cartao.IdCartao)
+          )
+         as TotalParaFazerHoje
+        ,    
+        (select count(distinct cartao.IdCartao) as TotalFeitoHoje
+        from Conteudo conteudo
+        inner join Cartao cartao 
+          on conteudo.IdConteudo = cartao.IdConteudo
+        inner join Avaliacao avaliacao 
+          on avaliacao.IdCartao  =cartao.IdCartao
+        where conteudo.IdConteudo = :IdConteudo and CURDATE() = DATE_FORMAT(DtaInclusao, '%Y-%m-%d')
+        and avaliacao.idAvaliacao = (select max(idAvaliacao) from Avaliacao where IdCartao  =cartao.IdCartao)) as TotalFeitoHoje
+        ,    
+        (select count(distinct cartao.IdCartao) as TotalErroParaFazerHoje
+        from Conteudo conteudo
+        inner join Cartao cartao 
+          on conteudo.IdConteudo = cartao.IdConteudo
+        inner join Avaliacao avaliacao 
+          on avaliacao.IdCartao  =cartao.IdCartao
+        where conteudo.IdConteudo = :IdConteudo and CURDATE() = DATE_FORMAT(DtaProximaAvaliacao, '%Y-%m-%d') 
+			and avaliacao.idTipoAvaliacao = 2
+			and avaliacao.idAvaliacao = (select max(idAvaliacao) from Avaliacao where IdCartao  =cartao.IdCartao)
+            ) as TotalErroParaFazerHoje`,
+      {replacements: { IdConteudo:  idConteudo}, type: 'SELECT' });
+  }
 }
