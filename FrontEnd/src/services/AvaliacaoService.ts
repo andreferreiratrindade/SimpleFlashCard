@@ -15,27 +15,38 @@ export class AvaliacaoService {
             requiresToken: true,
             payload: avaliacao
         }
-        try {
-            let result = await HttpClient.post(parameters);
-            let notify = result.ok ? NotifyHelper.sucesso() : NotifyHelper.erro(result.error);
 
-            return notify;
-        } catch (error) {
-            return NotifyHelper.erro(error)
-        }
+        let result = await HttpClient.post(parameters);
+        let notify = result.ok ? NotifyHelper.sucesso() : NotifyHelper.erro(result.error);
+
+        return notify;
+
     }
 
-    public async recuperaProximaAvaliacao(idConteudo:number) {
+    public async recuperaProximaAvaliacao(idConteudo: number) {
         let parameters: IHttpClientRequestParameters
             = {
             url: Config.api + `/api/avaliacao/RecuperarProximaAvaliacao/${idConteudo}`,
             requiresToken: true
         }
-        try {
-            let result = await HttpClient.get(parameters);
-            return result.data.obj;
-        } catch (error) {
-            return null
-        }
+
+        let result = await HttpClient.get(parameters);
+        return result.data.obj;
+
     }
+
+    public async recuperaTotalRealizado(idConteudo: number) {
+        let parameters: IHttpClientRequestParameters
+            = {
+            url: Config.api + `/api/avaliacao/RecuperaTotalAvaliacaoPorTotalPrevisto/${idConteudo}`,
+            requiresToken: true
+        }
+
+        let result = await HttpClient.get(parameters);
+        return result.data.obj;
+
+    }
+
+
+
 }

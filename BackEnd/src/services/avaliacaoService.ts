@@ -55,7 +55,7 @@ export class AvaliacaoService {
     let caixas = await RepositoryQuery.RecuperaTodasCaixas(); 
 
     let caixaUltimaAvaliacao = await RepositoryQuery.RecuperaAvaliacaoCaixaAtual( req.body.idCartao);
-    let idCaixa : number = 1;
+    let idCaixa : number = 0;
 
       console.log(caixaUltimaAvaliacao)
     // Caso o tipo de avaliacação seja ACERTEI e existe avaliação anterior
@@ -63,6 +63,10 @@ export class AvaliacaoService {
         && caixaUltimaAvaliacao.length > 0){
         const idCaixaAtual = caixaUltimaAvaliacao[0] as any;
         idCaixa = idCaixaAtual.idCaixa + 1;
+    }
+
+    if(req.body.idTipoAvaliacao == Constants.TipoAtendimetno.ERREI){
+      idCaixa = 1;
     }
 
 
@@ -108,6 +112,22 @@ export class AvaliacaoService {
     const avaliacao  = await RepositoryQuery.RecuperaProximaAvaliacao( idPessoa, parseInt(req.params.idConteudo));
   
     return RetornoRequest.Response(avaliacao[0], null, res, HttpStatusCode.OK);
+  }
+
+
+  public async recuperaTotalAvaliacaoPorTotalPrevisto(req: any, res: any){
+
+    await this.recuperaProximaAvaliacaoValidacao(req);
+
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
+      return res.status(400).json({ errors: result.array() });
+    }
+
+    const totais  = await RepositoryQuery.RecuperaTotalAvaliacaoPorTotalPrevisto(parseInt(req.params.idConteudo));
+  
+    return RetornoRequest.Response(totais[0], null, res, HttpStatusCode.OK);
+
   }
   
 }

@@ -2,19 +2,30 @@ create database SimpleFlashCard;
 
 use SimpleFlashCard;
 
+drop table if exists Avaliacao;
+drop table if exists TipoAvaliacao;
+drop table if exists Caixa;
+drop table if exists Resposta;
+drop table if exists Pergunta;
+drop table if exists Cartao;
+drop table if exists Conteudo;
+drop table if exists Pessoa;
+
 create table if not exists Pessoa(
 	IdPessoa	int auto_increment primary key,
 	NmePessoa varchar(500) not null, 
     TxtSenha varchar(500) not null,
     TxtEmail varchar(500) not null,
-    DtaIncusao TIMESTAMP  default current_timestamp
+    DtaInclusao TIMESTAMP  default current_timestamp
+
 );
 
 create table if not exists Conteudo(
 	IdConteudo	int auto_increment primary key,
 	IdPessoa int not null, 
     NmeConteudo varchar(500) not null,
-    DtaIncusao TIMESTAMP  default current_timestamp,
+    DtaInclusao TIMESTAMP  default current_timestamp,
+
 
     FOREIGN KEY (IdPessoa)
         REFERENCES Pessoa (IdPessoa)
@@ -24,7 +35,8 @@ create table if not exists Conteudo(
 create table if not exists Cartao(
     IdCartao int auto_increment primary key, 
     IdConteudo int not null, 
-    DtaIncusao TIMESTAMP  default current_timestamp,
+    DtaInclusao TIMESTAMP  default current_timestamp,
+
 
     FOREIGN KEY (IdConteudo)
     REFERENCES Conteudo (IdConteudo)
@@ -36,7 +48,8 @@ create table if not exists Pergunta(
     IdPergunta int auto_increment primary key, 
     IdCartao int not null, 
     TxtPergunta  Text  not null, 
-    DtaIncusao TIMESTAMP  default current_timestamp,
+    DtaInclusao TIMESTAMP  default current_timestamp,
+
 
     FOREIGN KEY (IdCartao)
     REFERENCES Cartao (IdCartao)
@@ -47,7 +60,7 @@ create table if not exists Resposta(
     IdResposta int auto_increment primary key, 
     IdCartao int not null, 
     TxtResposta  Text  not null, 
-    DtaIncusao TIMESTAMP  default current_timestamp,
+    DtaInclusao TIMESTAMP  default current_timestamp,
     FOREIGN KEY (IdCartao)
     REFERENCES Cartao (IdCartao)
     ON UPDATE RESTRICT ON DELETE CASCADE
@@ -56,7 +69,9 @@ create table if not exists Resposta(
 create table if not exists Caixa(
     IdCaixa tinyint  primary key, 
     NroIncremento int not null, 
-    DesCaixa varchar(50) not null
+    DesCaixa varchar(50) not null,
+    DtaInclusao TIMESTAMP  default current_timestamp
+
 );
 
 
@@ -74,7 +89,7 @@ create table if not exists Avaliacao(
     IdCaixa tinyint not null, 
     idTipoAvaliacao tinyint not null, 
     DtaProximaAvaliacao TIMESTAMP not null,
-    DtaIncusao TIMESTAMP  default current_timestamp,
+    DtaInclusao TIMESTAMP  default current_timestamp,
 
     FOREIGN KEY (IdCaixa)
     REFERENCES Caixa (IdCaixa)
@@ -90,7 +105,7 @@ create table if not exists Avaliacao(
     ON UPDATE RESTRICT ON DELETE CASCADE
 );
 
-
+insert into Caixa values(0,5,'5 minutos'); -- Primeira avaliacao
 insert into Caixa values(1,5,'5 minutos');
 insert into Caixa values(2,1440,'1 dia');
 insert into Caixa values(4,2880,'2 dias');
