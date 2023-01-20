@@ -7,6 +7,8 @@ https://andreferreiratrindade.github.io/SimpleFlashCardFrontEnd/
 
 
 
+
+
 # Produção
 
   ## Banco de dados
